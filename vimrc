@@ -5,10 +5,8 @@
 " zj    move down to start of next fold
 " zk    move up to end of previous fold
 " Manage plugins. {{{1
-runtime macros/matchit.vim
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
-let g:GetLatestVimScripts_allowautoinstall=1
+
+
 " An example for a vimrc file. {{{1
 "
 " Maintainer:	Bram Moolenaar <Bram@vim.org>
@@ -108,13 +106,13 @@ endif
 
 " Preferences {{{1
 set number
-set cursorline
+" set cursorline
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set expandtab
 set hidden
-set listchars=tab:▸\ ,eol:¬
+" set listchars=tab:▸\ ,eol:¬
 " Put swap files in /tmp file
 set backupdir=~/tmp
 set directory=~/tmp
@@ -122,6 +120,7 @@ if has("autocmd")
   autocmd FileType html,css setlocal ts=2 sts=2 sw=2 expandtab
   autocmd BufNewFile,BufRead *.rss setfiletype xml
 endif
+
 
 " Toggles & Switches (Leader commands) {{{1
 let mapleader = ","
