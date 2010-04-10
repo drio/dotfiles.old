@@ -1,4 +1,3 @@
-#export PS1='\n\u@\h:\w\n\$ '
 export PS1='\[\e[1;30m\][\u@\h \W]\$\[\e[0m\] '
 
 alias todo="mvim $HOME/Dropbox/todo/hgsc/hgsc_p1.viki"
