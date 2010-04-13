@@ -107,9 +107,9 @@ endif
 " Preferences {{{1
 set number
 " set cursorline
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 set expandtab
 set hidden
 " set listchars=tab:▸\ ,eol:¬

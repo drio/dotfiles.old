@@ -30,7 +30,7 @@ set directory=$HOME/.vim.swaps
 set backupdir=$HOME/.vim.swaps
 
 " Highlight when searching
-set hlsearch
+" set hlsearch
 
 " Scroll Offset (to use with z<CR>)
 set scrolloff=1
