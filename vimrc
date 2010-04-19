@@ -45,7 +45,10 @@ set softtabstop=2         " unify
 
 set preserveindent        " but above all -- follow the conventions laid before us
 
-autocmd BufEnter *.viki set filetype=viki
+
+" For Viki
+:autocmd BufNewFile,BufRead,BufEnter *.viki set ft=viki nocompatible
+:let vikiNameSuffix=".viki"
 
 set foldenable
 "au BufWinLeave * mkview 
