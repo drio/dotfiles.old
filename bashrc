@@ -1,4 +1,4 @@
-export PS1='\[\e[1;30m\][\u@\h \W]\$\[\e[0m\] '
+PS1='\[\033[00;32m\]\u\[\033[01m\]@\[\033[00;36m\]\h\[\033[01m\]:\[\033[00;35m\]\w\[\033[00m\]\[\033[01;30m\](`git branch 2>/dev/null|tr -d \*\ `)\[\033[00m\]\$ '
 
 alias todo="mvim $HOME/Dropbox/todo/hgsc/hgsc_p1.viki"
 alias scratch="mvim $HOME/Dropbox/Documents/scratch.txt"
