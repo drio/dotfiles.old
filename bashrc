@@ -7,6 +7,7 @@ export EDITOR="vim"
 
 alias todo="mvim $HOME/Dropbox/todo/hgsc/hgsc_p1.viki"
 alias scratch="mvim $HOME/Dropbox/Documents/scratch.txt"
+alias notes="mvim $HOME/Dropbox/Documents/notes.txt"
 alias refresh='. ~/.bashrc'
 
 # Load specific stuff for this machine/user
