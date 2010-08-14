@@ -10,6 +10,9 @@ alias scratch="mvim $HOME/Dropbox/Documents/scratch.txt"
 alias notes="mvim $HOME/Dropbox/Documents/notes.txt"
 alias refresh='. ~/.bashrc'
 
+# Load screen_stuff
+export PATH=$PATH:$HOME/.screen_loader
+
 # Load specific stuff for this machine/user
 touch $HOME/.bashrc_for_here
 source $HOME/.bashrc_for_here
