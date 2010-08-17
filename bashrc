@@ -11,6 +11,7 @@ alias notes="mvim $HOME/Dropbox/Documents/notes.txt"
 alias refresh='. ~/.bashrc'
 alias ruby_scratch="mvim $HOME/Dropbox/Documents/scratch.rb"
 alias vim_notes="mvim $HOME/Dropbox/the_knowledge_pool/vim.txt"
+alias tmux_notes="mvim $HOME/Dropbox/the_knowledge_pool/tmux.txt"
 
 # Load screen_stuff
 export PATH=$PATH:$HOME/.screen_loader
