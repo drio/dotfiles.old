@@ -13,6 +13,9 @@ set novisualbell    " don't blink
 "set laststatus=2
 set hidden        " Hide the buffer when switching to another, don't try to save it
 set ruler
+set relativenumber
+"set undofile
+set ttyfast
 
 " Save these for sessions
 set sessionoptions=blank,buffers,curdir,folds,help,resize,tabpages,winsize
@@ -97,3 +100,48 @@ map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
 
+" makes it easy to clear out a search by typing ,<space>
+nnoremap <leader><space> :noh<cr>
+" make the tab key match bracket pairs
+nnoremap <tab> %
+vnoremap <tab> %
+" These lines manage my line wrapping settings and also show a colored column at 85 
+" characters (so I can see when I write a too-long line of code).
+set wrap
+set textwidth=79
+set formatoptions=qrn1
+set colorcolumn=85
+" makes Vim show invisible characters with the same characters that TextMate uses
+set list
+set listchars=tab:▸\ ,eol:¬
+" Disable arrow moves
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+inoremap <up> <nop>
+inoremap <down> <nop>
+inoremap <left> <nop>
+inoremap <right> <nop>
+nnoremap j gj
+nnoremap k gk
+
+" get rid of that stupid goddamned help key that you will invaribly hit constantly 
+" while aiming for escape
+inoremap <F1> <ESC>
+nnoremap <F1> <ESC>
+vnoremap <F1> <ESC>
+" to reselect the text that was just pasted so I can perform commands 
+" (like indentation) on it
+nnoremap <leader>v V`]
+" quickly open up my ~/.vimrc file in a vertically split window so I can add new 
+" things to it on the fly
+nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
+" Ack
+nnoremap <leader>a :Ack
+" Toggle Rainbow
+nnoremap <leader>R :RainbowParenthesesToggle<CR>
+" enable/disable colorcolum (I probably want to write a little function to toggle)
+nnoremap <leader>cd :set colorcolumn=0<CR>
+nnoremap <leader>ce :set colorcolumn=85<CR>
+" enable/disable

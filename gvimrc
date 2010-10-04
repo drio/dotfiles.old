@@ -5,7 +5,7 @@ if has("gui_running")
   endif
   if has("macunix") 
     "set guifont=Monaco:h13
-		set anti guifont=Bitstream\ Vera\ Sans\ Mono:h12
+		set anti guifont=Bitstream\ Vera\ Sans\ Mono:h13
     set cursorline
   endif
   if has("win32") 
@@ -17,7 +17,8 @@ if has("gui_running")
   set columns=160
   set go-=T
   "set noantialias
-  colorscheme blackboard
+  "colorscheme blackboard
+  colorscheme molokai
   set visualbell t_vb=
   set guioptions-=T  "remove toolbar
   set guioptions-=m  "remove menu
