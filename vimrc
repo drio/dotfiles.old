@@ -110,7 +110,7 @@ vnoremap <tab> %
 set wrap
 set textwidth=79
 set formatoptions=qrn1
-set colorcolumn=85
+set colorcolumn=0
 " makes Vim show invisible characters with the same characters that TextMate uses
 set list
 set listchars=tab:▸\ ,eol:¬
