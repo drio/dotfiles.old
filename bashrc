@@ -5,9 +5,10 @@ parse_git_branch() {
 export PS1="\u@\h:\w *\`parse_git_branch\`*$ "
 export EDITOR="vim"
 
-alias todo="mvim $HOME/Dropbox/todo/hgsc/hgsc_p1.viki"
-alias scratch="mvim $HOME/Dropbox/Documents/scratch.txt"
-alias notes="mvim $HOME/Dropbox/Documents/notes.txt"
+alias todo="vim $HOME/Dropbox/todo/hgsc/hgsc_p1.viki"
+alias pomo="vim $HOME/Dropbox/todo/hgsc/pomodoro.viki"
+alias scratch="vim $HOME/Dropbox/Documents/scratch.txt"
+alias notes="vim $HOME/Dropbox/Documents/notes.txt"
 alias refresh='. ~/.bashrc'
 alias ruby_scratch="mvim $HOME/Dropbox/Documents/scratch.rb"
 alias vim_notes="mvim $HOME/Dropbox/the_knowledge_pool/vim.txt"

@@ -3,16 +3,12 @@
 " @Website:     http://www.vim.org/account/profile.php?user_id=4037
 " @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 " @Created:     2007-09-03.
-" @Last Change: 2009-02-15.
-" @Revision:    0.0.111
-
-if &cp || exists("loaded_viki_viki")
-    finish
-endif
-let loaded_viki_viki = 1
+" @Last Change: 2010-09-13.
+" @Revision:    0.0.129
 
 let s:save_cpo = &cpo
 set cpo&vim
+" call tlog#Log('Load: '. expand('<sfile>')) " vimtlib-sfile
 
 
 """ viki/deplate {{{1
@@ -21,9 +17,6 @@ set cpo&vim
 " This also sets up the rx for the different viki name types.
 " viki_viki#SetupBuffer(state, ?dontSetup='')
 function! viki_viki#SetupBuffer(state, ...) "{{{3
-    if !g:vikiEnabled
-        return
-    endif
     " TLogDBG expand('%') .': '. (exists('b:vikiFamily') ? b:vikiFamily : 'default')
 
     let dontSetup = a:0 > 0 ? a:1 : ""
@@ -103,7 +96,7 @@ function! viki_viki#SetupBuffer(state, ...) "{{{3
                 call viki#CollectFileWords(b:vikiHyperWordTable, simpleWikiName)
             endif
             call viki#CollectHyperWords(b:vikiHyperWordTable)
-            let hyperWords = keys(b:vikiHyperWordTable)
+            let hyperWords = reverse(sort(keys(b:vikiHyperWordTable)))
             if !empty(hyperWords)
                 let simpleHyperWords = join(map(hyperWords, '"\\<".tlib#rx#Escape(v:val)."\\>"'), '\|') .'\|'
                 let simpleHyperWords = substitute(simpleHyperWords, ' \+', '\\s\\+', 'g')
@@ -132,10 +125,14 @@ function! viki_viki#SetupBuffer(state, ...) "{{{3
    
     if viki#IsSupportedType("u") && !(dontSetup =~# "u")
         let urlChars = 'A-Za-z0-9.,:%?=&_~@$/|+-'
+        " let b:vikiUrlRx = '\<\(\('.b:vikiSpecialProtocols.'\):['. urlChars .']\+\)'.
+        "             \ '\(#\('. b:vikiAnchorNameRx .'\)\)\?'. b:vikiUrlRestRx
+        " let b:vikiUrlSimpleRx = '\<\('. b:vikiSpecialProtocols .'\):['. urlChars .']\+'.
+        "             \ '\(#'. b:vikiAnchorNameRx .'\)\?'. b:vikiUrlRestRx
         let b:vikiUrlRx = '\<\(\('.b:vikiSpecialProtocols.'\):['. urlChars .']\+\)'.
-                    \ '\(#\('. b:vikiAnchorNameRx .'\)\)\?'. b:vikiUrlRestRx
+                    \ '\(#\(['. b:vikiLowerCharacters . b:vikiUpperCharacters .'_0-9%]\+\)\)\?'. b:vikiUrlRestRx
         let b:vikiUrlSimpleRx = '\<\('. b:vikiSpecialProtocols .'\):['. urlChars .']\+'.
-                    \ '\(#'. b:vikiAnchorNameRx .'\)\?'. b:vikiUrlRestRx
+                    \ '\(#['. b:vikiLowerCharacters . b:vikiUpperCharacters .'_0-9%]\+\)\?'. b:vikiUrlRestRx
         let b:vikiUrlNameIdx   = 0
         let b:vikiUrlDestIdx   = 1
         let b:vikiUrlAnchorIdx = 4
@@ -373,9 +370,6 @@ endf
 " Initialize viki as minor mode (add-on to some buffer filetype)
 "state ... no-op:0, minor:1, major:2
 function! viki_viki#MinorMode(state) "{{{3
-    if !g:vikiEnabled
-        return 0
-    endif
     if a:state == 0
         return 0
     endif
@@ -447,6 +441,9 @@ function! viki_viki#CompleteExtendedNameDef(def) "{{{3
         " TLogVAR v_dest
         if v_dest != g:vikiDefNil
             let v_dest = viki#ExpandSimpleName('', v_dest, useSuffix)
+            if !viki#IsSpecialProtocol(v_dest)
+                let v_dest = tlib#url#Decode(v_dest)
+            endif
             " TLogVAR v_dest
         endif
     else
@@ -461,10 +458,15 @@ function! viki_viki#CompleteExtendedNameDef(def) "{{{3
             let v_dest = expand("%:p:h") .g:vikiDirSeparator. v_dest
             let v_dest = viki#CanonicFilename(v_dest)
         endif
-        if v_dest != '' && v_dest != g:vikiSelfRef && !viki#IsSpecial(v_dest)
-            let mod = viki#ExtendedModifier(v_part)
-            if fnamemodify(v_dest, ':e') == '' && mod !~# '!'
-                let v_dest = viki#WithSuffix(v_dest)
+        if v_dest != '' && v_dest != g:vikiSelfRef
+            if !viki#IsSpecial(v_dest)
+                let mod = viki#ExtendedModifier(v_part)
+                if fnamemodify(v_dest, ':e') == '' && mod !~# '!'
+                    let v_dest = viki#WithSuffix(v_dest)
+                endif
+            endif
+            if !viki#IsSpecialProtocol(v_dest)
+                let v_dest = tlib#url#Decode(v_dest)
             endif
         endif
     endif

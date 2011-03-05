@@ -1,8 +1,13 @@
 set nocompatible
+set background=dark
+colors drd
 syntax on
-set paste
+"set enc=utf-8
+"set fenc=utf-8
+"set termencoding=utf-8
+"set paste
 set showcmd       " show the command being typed
-set number        " Display line numbers
+"set number        " Display line numbers
 set numberwidth=6 " When using set number, setup the # of columns to save for line number
 set lazyredraw    " do not redraw while running macros (much faster) (LazyRedraw)
 set noerrorbells  " don't make noise
@@ -13,9 +18,10 @@ set novisualbell    " don't blink
 "set laststatus=2
 set hidden        " Hide the buffer when switching to another, don't try to save it
 set ruler
-set relativenumber
+"set relativenumber
 "set undofile
 set ttyfast
+set tw=79
 
 " Save these for sessions
 set sessionoptions=blank,buffers,curdir,folds,help,resize,tabpages,winsize
@@ -41,21 +47,28 @@ set tabstop=2             " real tabs should be 4, but they will show with set l
 set copyindent            " but above all -- follow the conventions laid before us
 set tw=80                 " Please, lines no longer than 80 characters
 "set smarttab
-"filetype plugin indent on " load filetype plugins and indent settings
+filetype plugin indent on " load filetype plugins and indent settings
 
 set expandtab             " no real tabs please!
 set softtabstop=2         " unify
 
 set preserveindent        " but above all -- follow the conventions laid before us
 
+" Save folds
+" au BufWinLeave * mkview
+" au BufWinEnter * silent loadview
 
 " For Viki
-:autocmd BufNewFile,BufRead,BufEnter *.viki set ft=viki nocompatible
-:let vikiNameSuffix=".viki"
+au BufRead,BufNewFile *.viki set ft=viki
+let vikiNameSuffix=".viki"
 
 set foldenable
 "au BufWinLeave * mkview 
 "au BufWinEnter * silent loadview
+
+" for par
+"set formatprg=par\ -w78
+
 
 map <F3> ggVGg? " apply rot13 for people snooping over shoulder, good fun
 nmap <F8> :w<CR>:!aspell -e --lang=es_ES -c %<CR>:e<CR>
@@ -80,6 +93,8 @@ map <leader>et :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
 " Toggle between displaying special charaters
 nmap <leader>l :set list!<CR>
+" Toggle between displaying line numbers
+nmap <leader>n :set number!<CR>
 
 " Help jumping to tabs
 map <D-S-]> gt
@@ -112,8 +127,8 @@ set textwidth=79
 set formatoptions=qrn1
 set colorcolumn=0
 " makes Vim show invisible characters with the same characters that TextMate uses
-set list
-set listchars=tab:▸\ ,eol:¬
+"set list
+"set listchars=tab:▸\ ,eol:¬
 " Disable arrow moves
 nnoremap <up> <nop>
 nnoremap <down> <nop>
@@ -145,3 +160,17 @@ nnoremap <leader>R :RainbowParenthesesToggle<CR>
 nnoremap <leader>cd :set colorcolumn=0<CR>
 nnoremap <leader>ce :set colorcolumn=85<CR>
 " enable/disable
+
+" No expandtab when working with Makefiles
+autocmd FileType make setlocal noexpandtab
+
+" spelling options
+nmap <silent> <leader>s :set spell!<CR>
+set spelllang=en_us
+
+" edit my todo
+nmap <silent> <leader>t :e $HOME/Dropbox/todo/hgsc/hgsc_p1.viki<CR>
+
+"set tags=/Users/drio/tmp/wiki/tags;./tags;tags;/.
+"autocmd BufWritePost /Users/drio/tmp/wiki/*
+"helptags /Users/drio/tmp/wiki

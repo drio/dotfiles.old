@@ -3,24 +3,9 @@
 " @Website:     http://www.vim.org/account/profile.php?user_id=4037
 " @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 " @Created:     2007-04-10.
-" @Last Change: 2009-02-25.
-" @Revision:    561
+" @Last Change: 2010-11-12.
+" @Revision:    653
 " GetLatestVimScripts: 1863 1 tlib.vim
-"
-" Please see also ../test/tlib.vim for usage examples.
-"
-" TODO:
-" - tlib#input#List(): RightMouse -> Make commands accessible via 
-"   popup-menu
-" - List isn't updated on some occassions (eg tselectfiles + pick file 
-"   per mouse) when resetting the state from an post-process agent
-" - tlib#agent#SwitchLayout(): switch between horizontal and vertical 
-"   layout for the list
-" - tlib#cache#Purge(): delete old cache files (for the moment use find)
-" - tlib#file#Relative(): currently relies on cwd to be set
-" - tlib#input#EditList(): Disable selection by index number
-" - tlib#input#List(): Some kind of command line to edit some 
-"   preferences (sort etc.) on the fly
 
 if &cp || exists("loaded_tlib")
     finish
@@ -29,9 +14,14 @@ if v:version < 700 "{{{2
     echoerr "tlib requires Vim >= 7"
     finish
 endif
-let loaded_tlib = 30
+let loaded_tlib = 41
+
 let s:save_cpo = &cpo
 set cpo&vim
+
+
+" Init~ {{{1
+" call tlib#autocmdgroup#Init()
 
 
 " Commands~ {{{1
@@ -109,6 +99,11 @@ command! -nargs=+ TKeyArg exec tlib#arg#Key([<args>])
 command! -nargs=1 -complete=command TBrowseOutput call tlib#cmd#BrowseOutput(<q-args>)
 
 
+" :display: TTimeCommand CMD
+" Time the execution time of CMD.
+command! -nargs=1 -complete=command TTimeCommand call tlib#cmd#Time(<q-args>)
+
+
 
 " Variables~ {{{1
 
@@ -120,11 +115,12 @@ TLet g:tlib_pick_last_item = 1
 " selecting an item. Be slightly faster instead.
 TLet g:tlib_sortprefs_threshold = 200
 
-" Scratch window position
+" Scratch window position. By default the list window is opened on the 
+" bottom. Set this variable to 'topleft' or '' to change this behaviour.
 TLet g:tlib_scratch_pos = 'botright'
 
 " Size of the input list window (in percent) from the main size (of &lines).
-TLet g:tlib_inputlist_pct = 70
+TLet g:tlib_inputlist_pct = 50
 
 " Size of filename columns when listing filenames
 TLet g:tlib_inputlist_width_filename = '&co / 3'
@@ -136,7 +132,7 @@ TLet g:tlib_inputlist_higroup = 'IncSearch'
 " If a list contains more items, don't do an incremental "live search", 
 " but use |input()| the quere the user for a filter. This is useful on 
 " slower machines or with very long lists.
-TLet g:tlib_inputlist_livesearch_threshold = 500
+TLet g:tlib_inputlist_livesearch_threshold = 1000
 
 " If true, show some indicators about the status of a filename (eg 
 " buflisted(), bufloaded() etc.).
@@ -144,10 +140,18 @@ TLet g:tlib_inputlist_livesearch_threshold = 500
 " disk when doing this.
 TLet g:tlib_inputlist_filename_indicators = 0
 
-" Can be "cnf" or "fuzzy".
-"   cnf   :: substrings
-"   fuzzy :: match characters
+" Can be "cnf", "cnfd", "seq", or "fuzzy". See:
+"   cnf :: Match substrings
+"     - |tlib#Filter_cnf#New()| (this is the default method)
+"     - |tlib#Filter_cnfd#New()|
+"   seq :: Match sequences of characters
+"     - |tlib#Filter_seq#New()|
+"   fuzzy :: Match fuzzy character sequences
+"     - |tlib#Filter_fuzzy#New()|
 TLet g:tlib_inputlist_match = 'cnf'
+
+" If non null, display only a short info about the filter.
+TLet g:tlib_inputlist_shortmessage = 0
 
 " Extra tags for |tlib#tag#Retrieve()| (see there). Can also be buffer-local.
 TLet g:tlib_tags_extra = ''
@@ -174,7 +178,10 @@ TLet g:tlib_tag_substitute = {
 TLet g:tlib_filename_sep = '/'
 " TLet g:tlib_filename_sep = exists('+shellslash') && !&shellslash ? '\' : '/'   " {{{2
 
-" The cache directory. If empty, use |tlib#dir#MyRuntime|.'/cache'
+" The cache directory. If empty, use |tlib#dir#MyRuntime|.'/cache'.
+" You might want to delete old files from this directory from time to 
+" time with a command like: >
+"   find ~/vimfiles/cache/ -atime +31 -type f -print -delete
 TLet g:tlib_cache = ''
 
 " Where to display the line when using |tlib#buffer#ViewLine|.
@@ -198,16 +205,6 @@ TLet g:tlib_inputlist_not = '-'
 " Format: [KEY] = BASE ... the number is calculated as KEY - BASE.
 " :nodefault:
 TLet g:tlib_numeric_chars = {
-            \ 48: 48,
-            \ 49: 48,
-            \ 50: 48,
-            \ 51: 48,
-            \ 52: 48,
-            \ 53: 48,
-            \ 54: 48,
-            \ 55: 48,
-            \ 56: 48,
-            \ 57: 48,
             \ 176: 176,
             \ 177: 176,
             \ 178: 176,
@@ -219,8 +216,24 @@ TLet g:tlib_numeric_chars = {
             \ 184: 176,
             \ 185: 176,
             \}
+            " \ 48: 48,
+            " \ 49: 48,
+            " \ 50: 48,
+            " \ 51: 48,
+            " \ 52: 48,
+            " \ 53: 48,
+            " \ 54: 48,
+            " \ 55: 48,
+            " \ 56: 48,
+            " \ 57: 48,
 
 " :nodefault:
+" The default key bindings for single-item-select list views. If you 
+" want to use <c-j>, <c-k> to move the cursor up and down, add these two 
+" lines to after/plugin/02tlib.vim: >
+"
+"   let g:tlib_keyagents_InputList_s[10] = 'tlib#agent#Down'  " <c-j>
+"   let g:tlib_keyagents_InputList_s[11] = 'tlib#agent#Up'    " <c-k>
 TLet g:tlib_keyagents_InputList_s = {
             \ "\<PageUp>":   'tlib#agent#PageUp',
             \ "\<PageDown>": 'tlib#agent#PageDown',
@@ -533,4 +546,50 @@ text to an empty buffer.
 - :TRequire command
 -tlib#input#List: For i-type list views, make sure agents are called 
 with the base indices.
+
+0.32
+- tlib#agent#Exit: explicitly return empty value (as a consequence, 
+pressing <esc> when browsing an index-list, returns 0 and not "")
+- tlib#signs
+- tlib#input#List: set local statusline
+
+0.33
+- Don't reset statusline
+- Don't use fnamemodify() to split filenames (for performance reasons)
+- scratch: Set ft after setting up scratch options
+- tlib#map#PumAccept(key)
+
+0.34
+- tlib#buffer#HighlightLine(line): call tlib#autocmdgroup#Init() 
+(reported by Sergey Khorev)
+
+0.35
+- tlib#input#EditList(): return the list if the user presses esc
+
+0.36
+- Display a message when the filter is for whatever reason invalid
+- Removed tlib#paragraph#Delete()
+- New: tlib#paragraph#Define(), tlib#textobjects#StandardParagraph()
+- Try to speed up list display (a rewrite of World.DisplayList() etc. is 
+required)
+
+0.37
+- g:tlib_inputlist_livesearch_threshold defaults to 1000
+- tlib#World: optional scratch_pos field
+- tlib#input#List: By default <m-NUMBER> selects by number but NUMBER is 
+interpreted as string
+- tlib#date
+- TTimeCommand
+
+0.38
+- tlib#World#Resize: set winfix{height|width}
+
+0.39
+- g:tlib#cache#dont_purge
+- tlib#vim#RestoreWindow()
+- tlib#ballon#...()
+
+0.40
+- tlib#agent#ViewFile: Use split/sbuffer if nohidden && modified 
+- tlib#buffer#GetList(): order by "basename"
 
