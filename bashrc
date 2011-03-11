@@ -7,6 +7,7 @@ export EDITOR="vim"
 
 alias todo="vim $HOME/Dropbox/todo/hgsc/hgsc_p1.viki"
 alias pomo="vim $HOME/Dropbox/todo/hgsc/pomodoro.viki"
+alias personal="vim $HOME/Dropbox/todo/hgsc/personal.viki"
 alias scratch="vim $HOME/Dropbox/Documents/scratch.txt"
 alias notes="vim $HOME/Dropbox/Documents/notes.txt"
 alias refresh='. ~/.bashrc'
@@ -35,3 +36,12 @@ export HISTCONTROL=erasedups
 export HISTSIZE=10000		
 # append history to ~\.bash_history when exiting shell
 shopt -s histappend		
+
+# EC2
+#export AWS_IAM_HOME=$HOME/ec2/IAM-cli
+#export AWS_CREDENTIAL_FILE=$AWS_IAM_HOME/drio_cred.txt
+export EC2_HOME=$HOME/ec2/ec2-api-tools-1.4.0.2
+export JAVA_HOME=/Library/Java/Home
+export EC2_PRIVATE_KEY=~/.ec2/pk-IGD2V6RDMFYFPMJTPPCZAAZ5NSWXXY4N.pem
+export EC2_CERT=~/.ec2/cert-IGD2V6RDMFYFPMJTPPCZAAZ5NSWXXY4N.pem
+export PATH=$PATH:$EC2_HOME/bin

@@ -55,8 +55,8 @@ set softtabstop=2         " unify
 set preserveindent        " but above all -- follow the conventions laid before us
 
 " Save folds
-" au BufWinLeave * mkview
-" au BufWinEnter * silent loadview
+au BufWinLeave ?* mkview
+au BufWinEnter ?* silent loadview
 
 " For Viki
 au BufRead,BufNewFile *.viki set ft=viki
