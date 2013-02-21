@@ -1,0 +1,206 @@
+set sendmail="/opt/local/bin/msmtp -a baylor"
+set use_from=yes
+#set from="xx@bcm.edu
+set from="XXXXXXXXXXXX"
+set realname = "name-here"
+set imap_user = "XXX@gmail.com"
+#set imap_pass = "XXXXXXX"
+
+set folder = "imaps://localhost:11993"
+# ssh -N -L 11993:imap.gmail.com:993 -L 11587:smtp.gmail.com:587 is04607.com
+set spoolfile = "+INBOX"
+set postponed ="+[Gmail]/Drafts"
+#set trash = "imaps://imap.gmail.com/[Gmail]/Trash"
+set header_cache =~/.mutt/cache/headers
+set message_cachedir =~/.mutt/cache/bodies
+set certificate_file =~/.mutt/certificates
+macro index gi "<change-folder>=imaps://localhost:11993/Inbox<enter>" "Go to inbox"
+macro index gh "<change-folder>=imaps://localhost:11993/hgsc<enter>" "Go to hgsc"
+macro index ga "<change-folder>=imaps://localhost:11993/All Mail<enter>" "Go to all mail"
+macro index gs "<change-folder>=imaps://localhost:11993/Sent Mail<enter>" "Go to Sent Mail"
+macro index gd "<change-folder>=imaps://localhost:11993/Drafts<enter>" "Go to drafts"
+macro index gl "<change-folder>=imaps://localhost:11993/lua<enter>" "Go to lua"
+set move = no  #Stop asking to "move read messages to mbox"!
+set imap_keepalive = 900
+
+set envelope_from=yes
+#set folder=$HOME/Maildir
+set sort = threads
+set sort_aux = last-date-received
+#set mbox_type=Maildir
+#set mbox=~/Maildir/In-box/
+set signature = ~/.signature
+#set charset = "iso-8859-1"
+#set charset="utf-8"
+set editor="/opt/local/bin/vim"
+set alias_file = ~/rcfiles/mimuttrc/misaliases
+#set allow_8bit
+#unset ascii_chars # Use ASCII chars for threading arrows.
+#set folder = ~/Maildir  # Directory that contains all mail files (mailboxes)
+set postponed = +Unsent # Where to save postponed mail
+set copy = yes          # Save copies of outgoing mail?
+set record = +Sent      # Where to save copies of outgoing mail
+set delete = yes	      # ask for confirmation when deleting messages?
+set edit_headers	      # put headers in editor when composing messages
+#set folder_format="%N %t %s %f"
+
+#my_hdr From: driodeiros@gmail.com (David Rio Deiros)
+# ALT + f
+#macro generic "<esc>1" ":set sendmail=\"/usr/bin/msmtp -a console\""
+#macro generic "<esc>2" ":set sendmail=\"/usr/bin/msmtp\""
+#macro generic "<esc>1" ":set from='David Rio Deiros <driodeiros@gmail.com>'"
+#macro generic "<esc>2" ":set from='David Rio Deiros <drio@console.net>'"
+#macro generic "<esc>3" ":set from='David Rio Deiros <drio@blastwave.org>'"
+#macro generic "<esc>4" ":set from='David Rio Deiros <david.rio@digitaria.com>'"
+macro index,pager "<esc>r" "<save-message>=_Read<enter><enter>" "Move message to Read"
+macro index,pager "<esc>y" "<save-message>=_Reply<enter><enter>" "Move message to Reply"
+macro index,pager "<esc>w" "<save-message>=_Waiting<enter><enter>" "Move message to Waiting"
+macro index,pager "<esc>4" "<save-message>=_stick<enter><enter>" "Move message to stick"
+macro index,pager "<esc>1" "<change-folder>=_Read<enter>" "change to read"
+macro index,pager "<esc>2" "<change-folder>=_Reply<enter>" "change to reply"
+macro index,pager "<esc>3" "<change-folder>=_Waiting<enter>" "change to reply"
+macro index,pager "<esc>i" "<change-folder>=Inbox<enter>" "change to inbox"
+macro index,pager "<esc>s" "<change-folder>=Sent<enter>" "change to Sent"
+macro pager   G     "!fetchmail -a -m '/usr/bin/procmail -d %T'\r"
+macro index   G     "!fetchmail -a -m '/usr/bin/procmail -d %T'\r"
+
+# Automatically quote message in reply
+set include=yes
+
+# Set quotemark to 1 byte
+set indent_str="> "
+set markers=no	#no + on wrapped lines
+
+folder-hook IN-junk push 'D.\n'
+folder-hook IN-Spam push 'D.\n'
+
+hdr_order date from subject to cc
+ignore *
+unignore date
+unignore from
+unignore to
+unignore subject
+unignore cc
+unignore X-FreeBSD-CVS-Branch
+
+
+set pgp_decode_command="gpg %?p?--passphrase-fd 0? --no-verbose --batch --output - %f"
+set pgp_verify_command="gpg --no-verbose --batch --output - --verify %s %f"
+set pgp_decrypt_command="gpg --passphrase-fd 0 --batch --output - %f"
+set pgp_sign_command="gpg --no-verbose --batch --output - --passphrase-fd 0 --armor --detach-sign --textmode %?a?-u %a? %f"
+set pgp_clearsign_command="gpg --no-verbose --batch --output - --passphrase-fd 0 --armor --textmode --clearsign %?a?-u %a? %f"
+set pgp_encrypt_only_command="pgpewrap gpg --batch --quiet --no-verbose --output - --encrypt --textmode --armor --always-trust --encrypt-to 0xAFCFD00C -- -r %r -- %f"
+set pgp_encrypt_sign_command="pgpewrap gpg --passphrase-fd 0 --batch --quiet --no-verbose --textmode --output - --encrypt --sign %?a?-u %a? --armor --always-trust --encrypt-to 0xAFCFD00C -- -r %r -- %f"
+set pgp_import_command="gpg --no-verbose --import -v %f"
+set pgp_export_command="gpg --no-verbose --export --armor %r"
+set pgp_verify_key_command="gpg --no-verbose --batch --fingerprint --check-sigs %r"
+set pgp_list_pubring_command="gpg --no-verbose --batch --with-colons --list-keys %r"
+set pgp_list_secring_command="gpg --no-verbose --batch --with-colons --list-secret-keys %r"
+set pgp_autosign=no
+set pgp_sign_as=0xAFCFD00C
+set pgp_replyencrypt=yes
+set pgp_timeout=1800
+#set pgp_good_sign="^gpg: Good signature from"
+set pgp_good_sign="`gettext -d gnupg -s 'Good signature from "' | tr -d '"'`"
+
+#color quoted yellow  default
+color quoted1 magenta black
+#color quoted2 yellow default
+#color quoted3 red default
+#color signature cyan cyan
+
+
+#this color setup is copied from /etc/mutt/Muttrc.color
+#comment it out if you want the default colors in /etc/mutt/Muttrc
+# Je vois la vie en rose :-)
+color   hdrdefault  brightcyan  black
+color   header      green   black "^from:"
+color   header          yellow      black   "^subject:"
+#
+color   quoted          brightgreen     black
+color   signature       brightwhite black
+#
+color   indicator       black           green
+#
+#color   error           red             black
+##mono    error           bold
+#color   status          black cyan
+#mono    status        bold
+color   tree            yellow      black
+#
+color   tilde           brightmagenta   black
+color     body              brightwhite     black   "[-a-z_0-9.]+@[-a-z_0-9.]+"
+mono    body                bold                    "[-a-z_0-9.]+@[-a-z_0-9.]+"
+color   body            brightyellow    black   "^Good signature"
+mono    body            bold                    "^Good signature"
+color   body            brightwhite     red     "^Bad signature from.*"
+mono    body            bold                    "^Bad signature from.*"
+color   normal          white       black
+color   message     green   black
+color   attachment  brightgreen black
+
+color   header	     yellow	           default	^Subject
+color   header	     green	           default	^From
+color   header	     white	           default	^Date
+color   header	     blue	           default	^Message-ID
+color   header	     red	           default	^X-Mailer
+color   header	     red	           default	^User-Agent
+color   body	     magenta           default "(ftp|http|https)://[^ ]+" # point out URLs
+color   body	     cyan	           default	[-a-z_0-9.]+@[-a-z_0-9.]+ # e-mail addresses
+
+#  Coloring quoted text - coloring the first 7 levels:
+color quoted    cyan black
+color quoted1   yellow black
+color quoted2   red black
+color quoted3   green black
+color quoted4   cyan black
+color quoted5   yellow black
+color quoted6   red black
+color quoted7   green black
+#
+#
+
+# Sidebar {
+#set sidebar_width=26
+#set sidebar_visible=yes
+#set sidebar_delim='|'
+
+# which mailboxes to list in the sidebar
+#mailboxes =Inbox
+#mailboxes =mairix-search
+#mailboxes =_Read
+#mailboxes =Sent
+#mailboxes =_stick
+
+#bind index p sidebar-prev
+#bind index n sidebar-next
+#bind index o sidebar-open
+#bind pager p sidebar-prev
+#bind pager n sidebar-next
+#bind pager o sidebar-open
+
+# color of folders with new mail
+#color sidebar_new yellow default
+
+# b toggles sidebar visibility
+#macro index b '<enter-command>toggle sidebar_visible<enter>'
+#macro pager b '<enter-command>toggle sidebar_visible<enter>'
+
+# Remap bounce-message function to "B"
+bind index B bounce-message
+
+# Mario Holbe suggests:
+# macro index b '<enter-command>toggle sidebar_visible<enter><refresh>'
+# macro pager b '<enter-command>toggle
+# sidebar_visible<enter><redraw-screen>'
+# }
+
+macro index "\em"    "<shell-escape>$HOME/.msearch.sh " "Run a Mairix search"
+macro index "\ef"    "<change-folder-readonly>=mairix-search\n" "Switch to Mairix search results"
+macro pager "\em"    "<shell-escape>$HOME/.msearch.sh " "Run a Mairix search"
+macro pager "\ef"    "<change-folder-readonly>=mairix-search\n" "Switch to Mairix search results"
+
+source /Users/drio/.mutt.aliases
+source /Users/drio/.mutt.pass
+push <show-version>
+

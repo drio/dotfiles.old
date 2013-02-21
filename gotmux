@@ -1,0 +1,23 @@
+#!/bin/sh
+#
+# Original: tmuxgo - Dale Bewley <dale @ bewley net> - Sat Feb 19 08:53:30 PST 2011
+
+SESSION=$USER
+
+# if the session is already running, just attach to it.
+tmux has-session -t $SESSION
+if [ $? -eq 0 ]; then
+  echo "Session $SESSION already exists. Attaching."
+  sleep 1
+  tmux -2 attach -t $SESSION
+  exit 0;
+else
+  # create a new session, named $SESSION, and detach from it
+  tmux new-session -d    -s $SESSION
+  tmux rename-window     -t $SESSION:0 irssi
+  tmux split-window      -p 50 -t $SESSION:0
+  tmux new-window        -t $SESSION:1 -k -n ardmore
+  tmux new-window        -t $SESSION:2 -k -n xbmc
+  tmux select-window     -t $SESSION:0
+  tmux -2 attach         -t $SESSION
+fi

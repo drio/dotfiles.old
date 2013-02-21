@@ -1,0 +1,11 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =9
+let g:netrw_dirhist_1='/Users/drio/dev/e-go'
+let g:netrw_dirhist_2='/Users/drio/dev/talks/d3.bigdata.August.2012'
+let g:netrw_dirhist_3='/Users/drio/dev/rogersLabApp/urlness'
+let g:netrw_dirhist_4='/Users/drio/dev/playground/go_app_engine/rogersLab/templates'
+let g:netrw_dirhist_5='/private/tmp/httplib2/python2/httplib2'
+let g:netrw_dirhist_6='/Users/drio/dev/python-librato/tests'
+let g:netrw_dirhist_7='/Users/drio/Dropbox/todo'
+let g:netrw_dirhist_8='/Users/drio/Dropbox/todo/hgsc'
+let g:netrw_dirhist_9='/Users/drio/dev/librato/python-librato'
