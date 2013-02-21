@@ -5,22 +5,22 @@ parse_git_branch() {
 export PS1="\u@\h:\w *\`parse_git_branch\`*$ "
 export EDITOR="vim"
 
-alias todo="vim $HOME/Dropbox/todo/hgsc/hgsc_p1.viki"
-alias pomo="vim $HOME/Dropbox/todo/hgsc/pomodoro.viki"
+alias gonotes="vim $HOME/Dropbox/Documents/gonotes.viki"
+alias todo="vim $HOME/Dropbox/todo/todo.viki"
+alias done="vim $HOME/Dropbox/todo/hgsc/done.txt"
+alias ptodo="vim $HOME/Dropbox/todo/hgsc/personal_todo.txt"
 alias personal="vim $HOME/Dropbox/todo/hgsc/personal.viki"
 alias scratch="vim $HOME/Dropbox/Documents/scratch.txt"
 alias notes="vim $HOME/Dropbox/Documents/notes.txt"
 alias refresh='. ~/.bashrc'
 alias ruby_scratch="mvim $HOME/Dropbox/Documents/scratch.rb"
-alias vim_notes="mvim $HOME/Dropbox/the_knowledge_pool/vim.txt"
+alias vim_notes="vim $HOME/Dropbox/the_knowledge_pool/vim.txt"
 alias tmux_notes="mvim $HOME/Dropbox/the_knowledge_pool/tmux.txt"
+alias to_tab="ruby -ane \'puts $F.join(\"\t\")\'"
+alias format='find . -name "*.go" | gxargs -i echo "gofmt -tabs=false -tabwidth=2 {} > {}.fix; mv {}.fix {}"'
 
 # Load screen_stuff
-export PATH=$PATH:$HOME/.screen_loader
-
-# Load specific stuff for this machine/user
-touch $HOME/.bashrc_for_here
-source $HOME/.bashrc_for_here
+export PATH=$PATH:/usr/bin
 
 mkdir -p $HOME/.vim.swaps
 
@@ -31,11 +31,11 @@ export GIT_COMMITTER_EMAIL="driodeiros@gmail.com"
 
 # History
 # when adding an item to history, delete itentical commands upstream
-export HISTCONTROL=erasedups	
+export HISTCONTROL=erasedups
 # save 10000 items in history
-export HISTSIZE=10000		
+export HISTSIZE=10000
 # append history to ~\.bash_history when exiting shell
-shopt -s histappend		
+shopt -s histappend
 
 # EC2
 #export AWS_IAM_HOME=$HOME/ec2/IAM-cli
@@ -45,3 +45,9 @@ export JAVA_HOME=/Library/Java/Home
 export EC2_PRIVATE_KEY=~/.ec2/pk-IGD2V6RDMFYFPMJTPPCZAAZ5NSWXXY4N.pem
 export EC2_CERT=~/.ec2/cert-IGD2V6RDMFYFPMJTPPCZAAZ5NSWXXY4N.pem
 export PATH=$PATH:$EC2_HOME/bin
+
+# Load specific stuff for this machine/user
+touch $HOME/.bashrc_for_here
+source $HOME/.bashrc_for_here
+
+export NODE_PATH="/usr/local/lib/node_modules"

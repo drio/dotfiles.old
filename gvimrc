@@ -3,12 +3,12 @@ if has("gui_running")
   if has("unix")
     set guifont=Monospace\ 8
   endif
-  if has("macunix") 
-    "set guifont=Monaco:h13
-    set anti guifont=Bitstream\ Vera\ Sans\ Mono:h13
+  if has("macunix")
+    set guifont=Monaco:h13
+    "set anti guifont=Bitstream\ Vera\ Sans\ Mono:h13
     set cursorline
   endif
-  if has("win32") 
+  if has("win32")
     set guifont=Lucida_Console:h12:cANSI
   endif
 
