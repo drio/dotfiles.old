@@ -1,6 +1,6 @@
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 argglobal
-setlocal noautoindent
+setlocal autoindent
 setlocal nobinary
 setlocal bufhidden=
 setlocal buflisted
@@ -94,15 +94,13 @@ setlocal nowinfixwidth
 setlocal nowrap
 setlocal wrapmargin=0
 silent! normal! zE
-1,24fold
-1
-normal zc
-let s:l = 44 - ((10 * winheight(0) + 26) / 52)
+let s:l = 59 - ((33 * winheight(0) + 22) / 44)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-44
-normal! 044l
+59
+normal! 043l
+lcd ~/
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :

@@ -25,8 +25,8 @@ setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
 setlocal expandtab
-if &filetype != ''
-setlocal filetype=
+if &filetype != 'gitcommit'
+setlocal filetype=gitcommit
 endif
 setlocal foldcolumn=0
 setlocal foldenable
@@ -45,12 +45,12 @@ setlocal grepprg=
 setlocal iminsert=0
 setlocal imsearch=0
 setlocal include=
-setlocal includeexpr=
+setlocal includeexpr=substitute(v:fname,'^[^/]\\+/','','')
 setlocal indentexpr=
 setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
 setlocal noinfercase
 setlocal iskeyword=@,48-57,_,192-255
-setlocal keywordprg=
+setlocal keywordprg=git\ --git-dir='/Users/drio/dev/py.analysis/.git'\ show
 setlocal nolinebreak
 setlocal nolisp
 setlocal nolist
@@ -62,7 +62,7 @@ setlocal nrformats=octal,hex
 setlocal number
 setlocal numberwidth=4
 setlocal omnifunc=
-setlocal path=
+setlocal path=~/dev/py.analysis/.git,~/dev/py.analysis,
 setlocal nopreserveindent
 setlocal nopreviewwindow
 setlocal quoteescape=\\
@@ -73,7 +73,7 @@ setlocal shiftwidth=2
 setlocal noshortname
 setlocal nosmartindent
 setlocal softtabstop=0
-setlocal nospell
+setlocal spell
 setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
 setlocal spellfile=
 setlocal spelllang=en_us
@@ -81,12 +81,12 @@ setlocal statusline=
 setlocal suffixesadd=
 setlocal swapfile
 setlocal synmaxcol=3000
-if &syntax != ''
-setlocal syntax=
+if &syntax != 'gitcommit'
+setlocal syntax=gitcommit
 endif
 setlocal tabstop=2
 setlocal tags=
-setlocal textwidth=0
+setlocal textwidth=72
 setlocal thesaurus=
 setlocal noundofile
 setlocal nowinfixheight
@@ -94,12 +94,12 @@ setlocal nowinfixwidth
 setlocal nowrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 11) / 22)
+let s:l = 1 - ((0 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 1
-normal! 011l
+normal! 020l
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :

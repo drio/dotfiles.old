@@ -1,8 +1,8 @@
 " Let Pathogen to its magic {{{
 filetype off
 call pathogen#helptags()
-call pathogen#runtime_append_all_bundles()
-call pathogen#infect() " for coffeescript stuff...
+call pathogen#incubate()
+call pathogen#infect()
 " }}}
 
 
@@ -42,6 +42,7 @@ set incsearch                   " incremental searching
 set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
 set hidden                      " Hide the buffer when switching to another, don't try to save it
+nmap <leader>q :nohlsearch<CR>
 "}}}
 
 " Mappings {{{
@@ -75,7 +76,7 @@ cnoremap <Esc>f <S-Right>
 cnoremap <Esc>d <S-right><Delete>
 cnoremap <C-g>  <C-c>
 
-" Disable arrow moves
+" Disable arrow moves and escape (CTRL+C) is better
 nnoremap <up> <nop>
 nnoremap <down> <nop>
 nnoremap <left> <nop>
@@ -84,6 +85,7 @@ inoremap <up> <nop>
 inoremap <down> <nop>
 inoremap <left> <nop>
 inoremap <right> <nop>
+inoremap  <Esc>    <NOP>
 nnoremap j gj
 nnoremap k gk
 
@@ -108,7 +110,6 @@ nnoremap <leader><leader> <c-^>
 " map L gt
 map <silent> <leader>n :tabnew<Cr>
 map <silent> <leader>c <C-w>c
-map <silent> <leader>q ZQ
 
 " Show a read line at 80c
 nmap <leader>H :set colorcolumn=80 <CR>
@@ -119,6 +120,15 @@ nmap <leader>n :set number!<CR>
 
 " Set the directory of the current file as current dir for NERDtree
 map <leader>r :NERDTreeFind<cr>
+
+" Close all the other buffers but this one
+map <leader>o :Bufonly<cr>
+
+" Copy to the clipboard (mac)
+vmap <leader>y :w !pbcopy<cr><cr>
+
+" Save file
+nmap <leader>u :update<CR>
 "}}}
 
 
@@ -141,14 +151,18 @@ let g:vikiOpenUrlWith_http = "silent !firefox %{FILE}"
 "}}}
 
 " NERDtree {{{
-map <silent> <leader>g1 :NERDTreeToggle<CR>
+map <silent> <leader>nt :NERDTreeToggle<CR>
 let g:NERDTreeWinSize = 30
 " List current dir (Vertical split)
 map <silent> <leader>e :Vex<CR>
 " let g:netrw_preview = 1
 "let g:netrw_liststyle = 3
 "let g:netrw_winsize = 40
+let g:NERDTreeDirArrows=1
+let NERDTreeIgnore=['\.o$', '\~$']
 "}}}
+"
+
 
 " Store swp files in a specific location
 set dir=~/.vim.swaps//,/var/tmp//,/tmp//,.
@@ -173,8 +187,34 @@ endif
 " ctrlp
 " {{{
 set runtimepath^=~/.vim/bundle/ctrlp.vim
+let g:ctrlp_match_window_bottom = 0
+let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 set wildignore+=*.so,*.swp,*.zip,*.pyc
+let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
+" 'r' - the nearest ancestor that contains one of these directories or
+"       files: .git .hg .svn .bzr
+" 'a' - like c, but only if the current working directory outside of CtrlP is
+" not a direct ancestor of the directory of the current file.
 let g:ctrlp_working_path_mode = 'ra'
+"let g:ctrlp_working_path_mode = 0
+let g:ctrlp_dotfiles = 0
+let g:ctrlp_switch_buffer = 0
 " }}}
+
+" powerline
+" {{{
+set laststatus=2   " Always show the statusline
+" }}}
+
+" Tabularize {{{
+nmap <leader>a= :Tabularize /=<CR>
+vmap <leader>a= :Tabularize /=<CR>
+nmap <leader>a: :Tabularize /:\zs<CR>
+vmap <leader>a: :Tabularize /:\zs<CR>
+"" }}}
+
+if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal"
+  set t_Co=256
+endif

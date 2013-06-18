@@ -1,9 +1,48 @@
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 argglobal
-setlocal keymap=
-setlocal noarabic
+let s:cpo_save=&cpo
+set cpo&vim
+nnoremap <buffer> <silent> <NL> :call nerdtree#invokeKeyMap("<C-j>")
+nnoremap <buffer> <silent>  :call nerdtree#invokeKeyMap("<C-k>")
+nnoremap <buffer> <silent>  :call nerdtree#invokeKeyMap('o')
+nnoremap <buffer> <silent> ? :call nerdtree#invokeKeyMap("?")
+nnoremap <buffer> <silent> A :call nerdtree#invokeKeyMap("A")
+nnoremap <buffer> <silent> B :call nerdtree#invokeKeyMap("B")
+nnoremap <buffer> <silent> CD :call nerdtree#invokeKeyMap("CD")
+nnoremap <buffer> <silent> C :call nerdtree#invokeKeyMap("C")
+nnoremap <buffer> <silent> D :call nerdtree#invokeKeyMap("D")
+nnoremap <buffer> <silent> F :call nerdtree#invokeKeyMap("F")
+nnoremap <buffer> <silent> I :call nerdtree#invokeKeyMap("I")
+nnoremap <buffer> <silent> J :call nerdtree#invokeKeyMap("J")
+nnoremap <buffer> <silent> K :call nerdtree#invokeKeyMap("K")
+nnoremap <buffer> <silent> O :call nerdtree#invokeKeyMap("O")
+nnoremap <buffer> <silent> P :call nerdtree#invokeKeyMap("P")
+nnoremap <buffer> <silent> R :call nerdtree#invokeKeyMap("R")
+nnoremap <buffer> <silent> T :call nerdtree#invokeKeyMap("T")
+nnoremap <buffer> <silent> U :call nerdtree#invokeKeyMap("U")
+nnoremap <buffer> <silent> X :call nerdtree#invokeKeyMap("X")
+nnoremap <buffer> <silent> cd :call nerdtree#invokeKeyMap("cd")
+nnoremap <buffer> <silent> e :call nerdtree#invokeKeyMap("e")
+nnoremap <buffer> <silent> f :call nerdtree#invokeKeyMap("f")
+nnoremap <buffer> <silent> gi :call nerdtree#invokeKeyMap("gi")
+nnoremap <buffer> <silent> gs :call nerdtree#invokeKeyMap("gs")
+nnoremap <buffer> <silent> go :call nerdtree#invokeKeyMap("go")
+nnoremap <buffer> <silent> i :call nerdtree#invokeKeyMap("i")
+nnoremap <buffer> <silent> m :call nerdtree#invokeKeyMap("m")
+nnoremap <buffer> <silent> o :call nerdtree#invokeKeyMap("o")
+nnoremap <buffer> <silent> p :call nerdtree#invokeKeyMap("p")
+nnoremap <buffer> <silent> q :call nerdtree#invokeKeyMap("q")
+nnoremap <buffer> <silent> r :call nerdtree#invokeKeyMap("r")
+nnoremap <buffer> <silent> s :call nerdtree#invokeKeyMap("s")
+nnoremap <buffer> <silent> t :call nerdtree#invokeKeyMap("t")
+nnoremap <buffer> <silent> u :call nerdtree#invokeKeyMap("u")
+nnoremap <buffer> <silent> x :call nerdtree#invokeKeyMap("x")
+nnoremap <buffer> <silent> <2-LeftMouse> :call nerdtree#invokeKeyMap("<2-LeftMouse>")
+nnoremap <buffer> <silent> <LeftRelease> <LeftRelease>:call nerdtree#invokeKeyMap("<LeftRelease>")
+nnoremap <buffer> <silent> <MiddleRelease> :call nerdtree#invokeKeyMap("<MiddleRelease>")
+let &cpo=s:cpo_save
+unlet s:cpo_save
 setlocal noautoindent
-setlocal balloonexpr=
 setlocal nobinary
 setlocal bufhidden=hide
 setlocal nobuflisted
@@ -16,8 +55,6 @@ setlocal colorcolumn=
 setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
 setlocal commentstring=/*%s*/
 setlocal complete=.,w,b,u,t,i
-setlocal concealcursor=
-setlocal conceallevel=0
 setlocal completefunc=
 setlocal nocopyindent
 setlocal cryptmethod=
@@ -34,7 +71,7 @@ if &filetype != 'nerdtree'
 setlocal filetype=nerdtree
 endif
 setlocal foldcolumn=0
-setlocal foldenable
+setlocal nofoldenable
 setlocal foldexpr=0
 setlocal foldignore=#
 setlocal foldlevel=0
@@ -59,7 +96,6 @@ setlocal keywordprg=
 setlocal nolinebreak
 setlocal nolisp
 setlocal nolist
-setlocal nomacmeta
 setlocal makeprg=
 setlocal matchpairs=(:),{:},[:]
 setlocal modeline
@@ -74,15 +110,13 @@ setlocal nopreviewwindow
 setlocal quoteescape=\\
 setlocal noreadonly
 setlocal norelativenumber
-setlocal norightleft
-setlocal rightleftcmd=search
 setlocal noscrollbind
 setlocal shiftwidth=2
 setlocal noshortname
 setlocal nosmartindent
 setlocal softtabstop=0
 setlocal nospell
-setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellcapcheck=
 setlocal spellfile=
 setlocal spelllang=en_us
 setlocal statusline=%{exists('b:NERDTreeRoot')?b:NERDTreeRoot.path.str():''}
@@ -98,15 +132,15 @@ setlocal textwidth=0
 setlocal thesaurus=
 setlocal noundofile
 setlocal nowinfixheight
-setlocal nowinfixwidth
+setlocal winfixwidth
 setlocal nowrap
 setlocal wrapmargin=0
-let s:l = 1 - ((0 * winheight(0) + 24) / 48)
+let s:l = 27 - ((26 * winheight(0) + 37) / 74)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
-normal! 0
+27
+normal! 08l
 lcd ~/
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost

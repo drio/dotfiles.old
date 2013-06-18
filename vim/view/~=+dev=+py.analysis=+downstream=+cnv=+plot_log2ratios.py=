@@ -71,9 +71,9 @@ setlocal norelativenumber
 setlocal noscrollbind
 setlocal shiftwidth=2
 setlocal noshortname
-setlocal nosmartindent
+setlocal smartindent
 setlocal softtabstop=0
-setlocal nospell
+setlocal spell
 setlocal spellcapcheck=
 setlocal spellfile=
 setlocal spelllang=en_us
@@ -94,12 +94,13 @@ setlocal nowinfixwidth
 setlocal nowrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 30 - ((28 * winheight(0) + 22) / 44)
+let s:l = 59 - ((38 * winheight(0) + 22) / 44)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-30
-normal! 02l
+59
+normal! 020l
+lcd ~/dev/playground/pragmatic.go
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :

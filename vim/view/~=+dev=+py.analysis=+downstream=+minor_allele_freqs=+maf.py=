@@ -9,7 +9,7 @@ setlocal nocindent
 setlocal cinkeys=0{,0},0),:,!^F,o,O,e
 setlocal cinoptions=
 setlocal cinwords=if,else,while,do,for,switch
-setlocal colorcolumn=80
+setlocal colorcolumn=
 setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:XCOMM,n:>,fb:-
 setlocal commentstring=#%s
 setlocal complete=.,w,b,u,t,i
@@ -94,12 +94,12 @@ setlocal nowinfixwidth
 setlocal nowrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 51 - ((34 * winheight(0) + 26) / 52)
+let s:l = 27 - ((17 * winheight(0) + 22) / 44)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-51
-normal! 015l
+27
+normal! 021l
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :

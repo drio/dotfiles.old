@@ -25,8 +25,8 @@ setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
 setlocal expandtab
-if &filetype != ''
-setlocal filetype=
+if &filetype != 'gitcommit'
+setlocal filetype=gitcommit
 endif
 setlocal foldcolumn=0
 setlocal foldenable
@@ -45,12 +45,12 @@ setlocal grepprg=
 setlocal iminsert=0
 setlocal imsearch=0
 setlocal include=
-setlocal includeexpr=
+setlocal includeexpr=substitute(v:fname,'^[^/]\\+/','','')
 setlocal indentexpr=
 setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
 setlocal noinfercase
 setlocal iskeyword=@,48-57,_,192-255
-setlocal keywordprg=
+setlocal keywordprg=git\ --git-dir='/Users/drio/dev/librato/python-librato/.git'\ show
 setlocal nolinebreak
 setlocal nolisp
 setlocal nolist
@@ -59,10 +59,10 @@ setlocal matchpairs=(:),{:},[:]
 setlocal modeline
 setlocal modifiable
 setlocal nrformats=octal,hex
-setlocal nonumber
+setlocal number
 setlocal numberwidth=4
 setlocal omnifunc=
-setlocal path=
+setlocal path=~/dev/librato/python-librato/.git,~/dev/librato/python-librato,
 setlocal nopreserveindent
 setlocal nopreviewwindow
 setlocal quoteescape=\\
@@ -81,12 +81,12 @@ setlocal statusline=
 setlocal suffixesadd=
 setlocal swapfile
 setlocal synmaxcol=3000
-if &syntax != ''
-setlocal syntax=
+if &syntax != 'gitcommit'
+setlocal syntax=gitcommit
 endif
 setlocal tabstop=2
 setlocal tags=
-setlocal textwidth=0
+setlocal textwidth=72
 setlocal thesaurus=
 setlocal noundofile
 setlocal nowinfixheight
@@ -94,12 +94,12 @@ setlocal nowinfixwidth
 setlocal nowrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 2 - ((1 * winheight(0) + 23) / 46)
+let s:l = 2 - ((1 * winheight(0) + 22) / 44)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 2
-normal! 09l
+normal! 08l
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :

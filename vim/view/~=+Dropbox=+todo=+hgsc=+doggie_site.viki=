@@ -5,30 +5,30 @@ set cpo&vim
 inoremap <buffer> <silent> <M-RightMouse> <LeftMouse>:call viki#GoBack(0)
 inoremap <buffer> <silent> <M-LeftMouse> <LeftMouse>:call viki#MaybeFollowLink(0,1)
 inoremap <buffer> <silent> <C-CR> :call viki#MaybeFollowLink(0,1)
-nnoremap <buffer> ,vX :VikiFilesExec! 
-nnoremap <buffer> ,vx :VikiFilesExec 
-nnoremap <buffer> <silent> ,vU :VikiFilesUpdateAll
-nnoremap <buffer> <silent> ,vu :VikiFilesUpdate
-nmap <buffer> <silent> ,vF ,vn,vf
-nnoremap <buffer> <silent> ,vN :VikiFindPrev
-nnoremap <buffer> <silent> ,vn :VikiFindNext
-nnoremap <buffer> <silent> ,v<Left> :call viki#GoBack()
-nnoremap <buffer> <silent> ,vb :call viki#GoBack()
-nnoremap <buffer> <silent> ,v<Up> :call viki#GoParent()
-nnoremap <buffer> <silent> ,v<BS> :call viki#GoParent()
-noremap <buffer> ,ve :VikiEdit 
-noremap <buffer> <silent> ,vp :call viki#MarkInexistentInElement("Paragraph")
-noremap <buffer> <silent> ,vd :call viki#MarkInexistentInElement("Document")
-nnoremap <buffer> <silent> ,vt :call viki#MaybeFollowLink(0,1,"tab")
-nnoremap <buffer> <silent> ,v4 :call viki#MaybeFollowLink(0,1,4)
-nnoremap <buffer> <silent> ,v3 :call viki#MaybeFollowLink(0,1,3)
-nnoremap <buffer> <silent> ,v2 :call viki#MaybeFollowLink(0,1,2)
-nnoremap <buffer> <silent> ,v1 :call viki#MaybeFollowLink(0,1,1)
-nnoremap <buffer> <silent> ,vv :call viki#MaybeFollowLink(0,1,-2)
-nnoremap <buffer> <silent> ,vs :call viki#MaybeFollowLink(0,1,-1)
-nnoremap <buffer> <silent> ,vf :call viki#MaybeFollowLink(0,1)
 map <buffer> <silent> [] [[
 map <buffer> <silent> [[ :call viki#FindPrevHeading()
+nnoremap <buffer> \vX :VikiFilesExec! 
+nnoremap <buffer> \vx :VikiFilesExec 
+nnoremap <buffer> <silent> \vU :VikiFilesUpdateAll
+nnoremap <buffer> <silent> \vu :VikiFilesUpdate
+nmap <buffer> <silent> \vF \vn\vf
+nnoremap <buffer> <silent> \vN :VikiFindPrev
+nnoremap <buffer> <silent> \vn :VikiFindNext
+nnoremap <buffer> <silent> \v<Left> :call viki#GoBack()
+nnoremap <buffer> <silent> \vb :call viki#GoBack()
+nnoremap <buffer> <silent> \v<Up> :call viki#GoParent()
+nnoremap <buffer> <silent> \v<BS> :call viki#GoParent()
+noremap <buffer> \ve :VikiEdit 
+noremap <buffer> <silent> \vp :call viki#MarkInexistentInElement("Paragraph")
+noremap <buffer> <silent> \vd :call viki#MarkInexistentInElement("Document")
+nnoremap <buffer> <silent> \vt :call viki#MaybeFollowLink(0,1,"tab")
+nnoremap <buffer> <silent> \v4 :call viki#MaybeFollowLink(0,1,4)
+nnoremap <buffer> <silent> \v3 :call viki#MaybeFollowLink(0,1,3)
+nnoremap <buffer> <silent> \v2 :call viki#MaybeFollowLink(0,1,2)
+nnoremap <buffer> <silent> \v1 :call viki#MaybeFollowLink(0,1,1)
+nnoremap <buffer> <silent> \vv :call viki#MaybeFollowLink(0,1,-2)
+nnoremap <buffer> <silent> \vs :call viki#MaybeFollowLink(0,1,-1)
+nnoremap <buffer> <silent> \vf :call viki#MaybeFollowLink(0,1)
 map <buffer> <silent> ]] ][
 map <buffer> <silent> ][ :call viki#FindNextHeading()
 nnoremap <buffer> <silent> <C-S-Tab> :VikiFindPrev
@@ -50,10 +50,7 @@ inoremap <buffer> <expr> ? viki#ExprMarkInexistentInElement('LineQuick','?')
 inoremap <buffer> <expr> ] viki#ExprMarkInexistentInElement('LineQuick',']')
 let &cpo=s:cpo_save
 unlet s:cpo_save
-setlocal keymap=
-setlocal noarabic
 setlocal noautoindent
-setlocal balloonexpr=tlib#balloon#Expr()
 setlocal nobinary
 setlocal bufhidden=
 setlocal buflisted
@@ -66,14 +63,12 @@ setlocal colorcolumn=
 setlocal comments=fb:-,fb:+,fb:*,fb:#,fb:?,fb:@,:%
 setlocal commentstring=%%%s
 setlocal complete=.,w,b,u,t,i
-setlocal concealcursor=n
-setlocal conceallevel=2
 setlocal completefunc=
 setlocal nocopyindent
 setlocal cryptmethod=
 setlocal nocursorbind
 setlocal nocursorcolumn
-setlocal cursorline
+setlocal nocursorline
 setlocal define=
 setlocal dictionary=
 setlocal nodiff
@@ -109,7 +104,6 @@ setlocal keywordprg=
 setlocal nolinebreak
 setlocal nolisp
 setlocal nolist
-setlocal nomacmeta
 setlocal makeprg=
 setlocal matchpairs=(:),{:},[:]
 setlocal modeline
@@ -124,15 +118,13 @@ setlocal nopreviewwindow
 setlocal quoteescape=\\
 setlocal noreadonly
 setlocal norelativenumber
-setlocal norightleft
-setlocal rightleftcmd=search
 setlocal noscrollbind
 setlocal shiftwidth=2
 setlocal noshortname
 setlocal nosmartindent
 setlocal softtabstop=0
 setlocal nospell
-setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellcapcheck=
 setlocal spellfile=
 setlocal spelllang=en_us
 setlocal statusline=
@@ -151,12 +143,13 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal nowrap
 setlocal wrapmargin=0
-let s:l = 44 - ((20 * winheight(0) + 24) / 49)
+let s:l = 29 - ((28 * winheight(0) + 22) / 44)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-44
-normal! 03l
+29
+normal! 0
+lcd ~/
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :
