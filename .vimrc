@@ -1,10 +1,3 @@
-" Let Pathogen to its magic {{{
-" filetype off
-" call pathogen#helptags()
-" call pathogen#incubate()
-" call pathogen#infect()
-" }}}
-
 " {{{ Setup vundle
 set nocompatible               " be iMproved
 filetype off                   " required!
@@ -27,11 +20,10 @@ Bundle 'tpope/vim-surround'
 
 
 " Basics {{{
+filetype plugin indent on       " load file type plugins + indentation
 set nu
-set nocompatible                " choose no compatibility with legacy vi
 set encoding=utf-8
 set showcmd                     " display incomplete commands
-filetype plugin indent on       " load file type plugins + indentation
 set foldmethod=manual
 set showcmd                     " to see partial commands as you type them
 
