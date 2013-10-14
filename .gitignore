@@ -2,3 +2,6 @@
 *~
 vim/doc
 vim/view
+vim/sessions
+vim/bundle/**
+~vim/bundle/vundle

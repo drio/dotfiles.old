@@ -1,8 +1,28 @@
 " Let Pathogen to its magic {{{
-filetype off
-call pathogen#helptags()
-call pathogen#incubate()
-call pathogen#infect()
+" filetype off
+" call pathogen#helptags()
+" call pathogen#incubate()
+" call pathogen#infect()
+" }}}
+
+" {{{ Setup vundle
+set nocompatible               " be iMproved
+filetype off                   " required!
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+
+Bundle 'scrooloose/syntastic'
+Bundle 'kien/ctrlp.vim'
+Bundle 'corntrace/bufexplorer'
+Bundle 'scrooloose/nerdtree'
+Bundle 'bling/vim-airline'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'jeffkreeftmeijer/vim-numbertoggle'
+Bundle 'tpope/vim-surround'
+
 " }}}
 
 
@@ -28,7 +48,6 @@ if !has('gui_running')
 endif
 colorscheme solarized
 "colorscheme desert
-
 
 " Whitespace
 set nowrap                      " don't wrap lines
@@ -116,7 +135,7 @@ nmap <leader>H :set colorcolumn=80 <CR>
 nmap <leader>h :set colorcolumn=0 <CR>
 
 " Toggle between displaying line numbers
-nmap <leader>n :set number!<CR>
+" nmap <leader>n :set number!<CR>
 
 " Set the directory of the current file as current dir for NERDtree
 map <leader>r :NERDTreeFind<cr>
@@ -129,6 +148,9 @@ vmap <leader>y :w !pbcopy<cr><cr>
 
 " Save file
 nmap <leader>u :update<CR>
+noremap <C-x> <C-C> :update<CR>
+vnoremap <C-x> <C-O> :update<CR>
+
 "}}}
 
 
@@ -152,17 +174,19 @@ let g:vikiOpenUrlWith_http = "silent !firefox %{FILE}"
 
 " NERDtree {{{
 map <silent> <leader>nt :NERDTreeToggle<CR>
-let g:NERDTreeWinSize = 30
+let g:NERDTreeWinSize = 35
 " List current dir (Vertical split)
 map <silent> <leader>e :Vex<CR>
 " let g:netrw_preview = 1
 "let g:netrw_liststyle = 3
 "let g:netrw_winsize = 40
 let g:NERDTreeDirArrows=1
+let g:NERDTreeChDirMode=2
 let NERDTreeIgnore=['\.o$', '\~$']
+" I want relative numbers in the NERDTree windows
+autocmd FileType nerdtree setlocal relativenumber
 "}}}
 "
-
 
 " Store swp files in a specific location
 set dir=~/.vim.swaps//,/var/tmp//,/tmp//,.
