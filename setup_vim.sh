@@ -9,7 +9,7 @@ function bye() {
 cd
 for f in dotfiles .vimrc .vim
 do
-  [ -f ".vimrc" ] && bye "$f exists. Bailing out."
+  [ -f $f ] && bye "$f exists. Bailing out."
 done
 
 git clone https://github.com/drio/dotfiles
