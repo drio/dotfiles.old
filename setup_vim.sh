@@ -1,0 +1,23 @@
+#!/bin/bash
+
+function bye() {
+  local msg=$1
+  echo $1 >&2
+  exit 1
+}
+
+cd
+for f in dotfiles .vimrc .vim
+do
+  [ -f ".vimrc" ] && bye "$f exists. Bailing out."
+done
+
+git clone https://github.com/drio/dotfiles
+
+cp dotfiles/.vimrc .
+cp -r dotfiles/vim ./.vim
+
+mkdir .vim/bundle
+git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+
+vim +BundleInstall +qall
