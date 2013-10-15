@@ -15,7 +15,9 @@ Bundle 'bling/vim-airline'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'jeffkreeftmeijer/vim-numbertoggle'
 Bundle 'tpope/vim-surround'
-
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'msanders/snipmate.vim'
+" Run :BundleInstall to install
 " }}}
 
 
@@ -114,7 +116,8 @@ map <Space> %
 nmap <leader>f :set columns=400<CR>:set lines=300<CR>
 
 " Cycle to previous buffer
-nnoremap <leader><leader> <c-^>
+" nnoremap <leader><leader> <c-^>
+map <C-b> <c-^>
 
 " Tabs Control
 " map H gT
