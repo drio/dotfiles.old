@@ -117,7 +117,7 @@ nmap <leader>f :set columns=400<CR>:set lines=300<CR>
 
 " Cycle to previous buffer
 " nnoremap <leader><leader> <c-^>
-map <C-b> <c-^>
+nnoremap <leader>f <c-^>
 
 " Tabs Control
 " map H gT
