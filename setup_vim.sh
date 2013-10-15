@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 function bye() {
   local msg=$1
@@ -20,4 +21,5 @@ cp -r dotfiles/vim ./.vim
 mkdir .vim/bundle
 git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 
+echo "You will get an error from the solarized package. That's ok."
 vim +BundleInstall +qall
