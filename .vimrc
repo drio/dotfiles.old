@@ -17,6 +17,9 @@ Bundle 'jeffkreeftmeijer/vim-numbertoggle'
 Bundle 'tpope/vim-surround'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'msanders/snipmate.vim'
+Bundle 'tomtom/tlib_vim'
+Bundle 'tomtom/viki_vim'
+
 " Run :BundleInstall to install
 " }}}
 
