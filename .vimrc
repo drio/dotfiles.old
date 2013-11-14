@@ -9,7 +9,6 @@ Bundle 'gmarik/vundle'
 
 Bundle 'scrooloose/syntastic'
 Bundle 'kien/ctrlp.vim'
-Bundle 'corntrace/bufexplorer'
 Bundle 'scrooloose/nerdtree'
 Bundle 'bling/vim-airline'
 Bundle 'altercation/vim-colors-solarized'
@@ -19,6 +18,9 @@ Bundle 'Lokaltog/vim-easymotion'
 Bundle 'msanders/snipmate.vim'
 Bundle 'tomtom/tlib_vim'
 Bundle 'tomtom/viki_vim'
+Bundle 'sjl/gundo.vim'
+Bundle 'nvie/vim-flake8.git'
+
 
 " Run :BundleInstall to install
 " }}}
@@ -48,7 +50,7 @@ colorscheme solarized
 
 " Whitespace
 set nowrap                      " don't wrap lines
-set tabstop=2 shiftwidth=2      " a tab is two spaces (or set this to 4)
+"set tabstop=2 shiftwidth=2      " a tab is two spaces (or set this to 4)
 set expandtab                   " use spaces, not tabs (optional)
 set backspace=indent,eol,start  " backspace through everything in insert mode
 
@@ -149,6 +151,8 @@ nmap <leader>u :update<CR>
 noremap <C-x> <C-C> :update<CR>
 vnoremap <C-x> <C-O> :update<CR>
 
+map <leader>g :GundoToggle<CR>
+
 "}}}
 
 
@@ -158,6 +162,8 @@ if has("autocmd")
   autocmd BufWritePre * :%s/\s\+$//e
   " No expandtab when working with Makefiles
   autocmd FileType make setlocal noexpandtab
+  " python
+  autocmd FileType python set tabstop=2 shiftwidth=2
   " Save session
   au BufWinLeave ?* mkview
   au BufWinEnter ?* silent loadview
@@ -219,8 +225,8 @@ let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend)$|(^|[/\\])\.(
 "       files: .git .hg .svn .bzr
 " 'a' - like c, but only if the current working directory outside of CtrlP is
 " not a direct ancestor of the directory of the current file.
-let g:ctrlp_working_path_mode = 'ra'
-"let g:ctrlp_working_path_mode = 0
+"let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_working_path_mode = 0
 let g:ctrlp_dotfiles = 0
 let g:ctrlp_switch_buffer = 0
 " }}}
@@ -236,6 +242,7 @@ vmap <leader>a= :Tabularize /=<CR>
 nmap <leader>a: :Tabularize /:\zs<CR>
 vmap <leader>a: :Tabularize /:\zs<CR>
 "" }}}
+
 
 if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal"
   set t_Co=256
