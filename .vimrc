@@ -163,7 +163,7 @@ if has("autocmd")
   " No expandtab when working with Makefiles
   autocmd FileType make setlocal noexpandtab
   " python
-  autocmd FileType python set tabstop=2 shiftwidth=2
+  autocmd FileType python set tabstop=4 shiftwidth=4
   " Save session
   au BufWinLeave ?* mkview
   au BufWinEnter ?* silent loadview
