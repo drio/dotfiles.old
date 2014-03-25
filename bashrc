@@ -2,27 +2,10 @@ parse_git_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
 
-#echo $PATH > $HOME/.before_bashrc
-unset PATH
-export PATH=/usr/local/bin:/bin
+export PATH=$PATH:/usr/local/bin:/bin
 
 export PS1="\u@\h:\w *\`parse_git_branch\`*$ "
 export EDITOR="vim"
-
-alias gonotes="vim $HOME/Dropbox/Documents/gonotes.viki"
-alias todo="vim $HOME/Dropbox/todo/todo.viki"
-alias done="vim $HOME/Dropbox/todo/hgsc/done.txt"
-alias ptodo="vim $HOME/Dropbox/todo/hgsc/personal_todo.txt"
-alias personal="vim $HOME/Dropbox/todo/hgsc/personal.viki"
-alias scratch="vim $HOME/Dropbox/Documents/scratch.txt"
-alias notes="vim $HOME/Dropbox/Documents/notes.txt"
-alias refresh='. ~/.bashrc'
-alias ruby_scratch="mvim $HOME/Dropbox/Documents/scratch.rb"
-alias vim_notes="vim $HOME/Dropbox/the_knowledge_pool/vim.txt"
-alias tmux_notes="mvim $HOME/Dropbox/the_knowledge_pool/tmux.txt"
-alias to_tab="ruby -ane \'puts $F.join(\"\t\")\'"
-alias format='find . -name "*.go" | gxargs -i echo "gofmt -tabs=false -tabwidth=2 {} > {}.fix; mv {}.fix {}"'
-alias gitp='git log --graph --pretty="format:%C(yellow)%h%Cblue%d%Creset %s %C(white) %an, %ar%Creset"'
 
 # Load screen_stuff
 export PATH=$PATH:/usr/bin
@@ -56,3 +39,5 @@ touch $HOME/.bashrc_for_here
 source $HOME/.bashrc_for_here
 
 export NODE_PATH="/usr/local/lib/node_modules"
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting

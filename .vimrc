@@ -20,7 +20,7 @@ Bundle 'tomtom/tlib_vim'
 Bundle 'tomtom/viki_vim'
 Bundle 'sjl/gundo.vim'
 Bundle 'nvie/vim-flake8.git'
-
+Bundle 'jelera/vim-javascript-syntax'
 
 " Run :BundleInstall to install
 " }}}
@@ -33,20 +33,23 @@ set encoding=utf-8
 set showcmd                     " display incomplete commands
 set foldmethod=manual
 set showcmd                     " to see partial commands as you type them
+set modelines=3
 
 " syntax highlight
 "
 " let g:solarized_diffmode="high" "default value is normal
 " let g:solarized_visibility="normal" " For :set list
 syntax enable
-set t_Co=256
+"set t_Co=256
 set background=dark
 if !has('gui_running')
   let g:solarized_termcolors=&t_Co
   let g:solarized_termtrans=1
 endif
-colorscheme solarized
-"colorscheme desert
+"colorscheme solarized
+colorscheme desert
+set nocursorline
+
 
 " Whitespace
 set nowrap                      " don't wrap lines
@@ -108,7 +111,7 @@ nnoremap j gj
 nnoremap k gk
 
 " Load todo
-map <silent> <leader>t :e $HOME/Dropbox/todo/todo.viki<CR>
+map <silent> <leader>t :e $HOME/Dropbox/todo/todo.txt<CR>
 
 " to reselect the text that was just pasted so I can perform commands
 " (like indentation) on it
@@ -131,8 +134,10 @@ map <silent> <leader>n :tabnew<Cr>
 map <silent> <leader>c <C-w>c
 
 " Show a read line at 80c
-nmap <leader>H :set colorcolumn=80 <CR>
-nmap <leader>h :set colorcolumn=0 <CR>
+" nmap <leader>H :set colorcolumn=80 <CR>
+" nmap <leader>h :set colorcolumn=0 <CR>
+highlight ColorColumn ctermbg=magenta
+call matchadd('ColorColumn', '\%81v', 100)
 
 " Toggle between displaying line numbers
 " nmap <leader>n :set number!<CR>
@@ -164,6 +169,8 @@ if has("autocmd")
   autocmd FileType make setlocal noexpandtab
   " python
   autocmd FileType python set tabstop=4 shiftwidth=4
+  " js
+  autocmd FileType javascript set tabstop=2 shiftwidth=2
   " Save session
   au BufWinLeave ?* mkview
   au BufWinEnter ?* silent loadview
@@ -189,6 +196,12 @@ let g:NERDTreeChDirMode=2
 let NERDTreeIgnore=['\.o$', '\~$']
 " I want relative numbers in the NERDTree windows
 autocmd FileType nerdtree setlocal relativenumber
+augroup NerdCursor
+  autocmd!
+  autocmd BufEnter NERD_tree_* hi CursorLine gui=underline
+  autocmd BufLeave NERD_tree_* highlight clear CursorLine
+  autocmd BufAdd * highlight clear CursorLine
+augroup END
 "}}}
 "
 
@@ -244,6 +257,6 @@ vmap <leader>a: :Tabularize /:\zs<CR>
 "" }}}
 
 
-if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal"
-  set t_Co=256
-endif
+
+
+
