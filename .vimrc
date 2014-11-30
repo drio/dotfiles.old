@@ -1,88 +1,111 @@
-" {{{ Setup vundle
-set nocompatible               " be iMproved
-filetype off                   " required!
+" vim :set foldmethod=manual:
+set nocompatible
+filetype off                   
+
 
 set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
+call vundle#begin()
 Bundle 'gmarik/vundle'
 
 Bundle 'scrooloose/syntastic'
 Bundle 'kien/ctrlp.vim'
 Bundle 'scrooloose/nerdtree'
-Bundle 'bling/vim-airline'
 Bundle 'altercation/vim-colors-solarized'
-Bundle 'jeffkreeftmeijer/vim-numbertoggle'
-Bundle 'tpope/vim-surround'
-Bundle 'Lokaltog/vim-easymotion'
 Bundle 'msanders/snipmate.vim'
-Bundle 'tomtom/tlib_vim'
-Bundle 'tomtom/viki_vim'
-Bundle 'sjl/gundo.vim'
+Bundle 'tpope/vim-surround.git'
+Bundle 'yegappan/mru.git'
+Bundle 'nicholaides/words-to-avoid.vim'
+Bundle 'pbrisbin/vim-mkdir.git'
+Bundle 'pbrisbin/vim-runfile'
+Bundle 'tpope/vim-eunuch'
+Bundle 'jeffkreeftmeijer/vim-numbertoggle'
+
+Bundle 'godlygeek/tabular'
+Bundle 'plasticboy/vim-markdown.git'
+
 Bundle 'nvie/vim-flake8.git'
-Bundle 'jelera/vim-javascript-syntax'
-
+" Bundle 'bling/vim-airline'
+" Bundle 'Lokaltog/vim-easymotion'
+" Bundle 'tomtom/tlib_vim'
+" Bundle 'tomtom/viki_vim'
+" Bundle 'sjl/gundo.vim'
+" Bundle 'jelera/vim-javascript-syntax'
 " Run :BundleInstall to install
-" }}}
-
-
-" Basics {{{
+call vundle#end()
 filetype plugin indent on       " load file type plugins + indentation
+
+
 set nu
 set encoding=utf-8
 set showcmd                     " display incomplete commands
 set foldmethod=manual
 set showcmd                     " to see partial commands as you type them
 set modelines=3
-
-" syntax highlight
-"
-" let g:solarized_diffmode="high" "default value is normal
-" let g:solarized_visibility="normal" " For :set list
-syntax enable
-"set t_Co=256
-set background=dark
-if !has('gui_running')
-  let g:solarized_termcolors=&t_Co
-  let g:solarized_termtrans=1
-endif
-"colorscheme solarized
-colorscheme desert
-set nocursorline
-
-
-" Whitespace
 set nowrap                      " don't wrap lines
-"set tabstop=2 shiftwidth=2      " a tab is two spaces (or set this to 4)
+set tabstop=2 shiftwidth=2 et   " a tab is two spaces (or set this to 4)
 set expandtab                   " use spaces, not tabs (optional)
 set backspace=indent,eol,start  " backspace through everything in insert mode
-
-"" Searching
 set hlsearch                    " highlight matches
 set incsearch                   " incremental searching
 set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
 set hidden                      " Hide the buffer when switching to another, don't try to save it
-nmap <leader>q :nohlsearch<CR>
-"}}}
-
-" Mappings {{{
-let mapleader='\'
-let maplocalleader='\'
-" Toggle between displaying special charaters
-nmap <leader>l :set list!<CR>
-" Change directory to path of current file
-nmap <leader>p :cd %:h<CR>
-
-" spelling options
-nmap <silent> <leader>s :set spell!<CR>
+set nocursorline
 set spelllang=en_us
+set listchars=tab:▸\ ,eol:¬,
+set laststatus=2                " Always show the statusline
+set wildignore+=*.so,*.swp,*.zip,*.pyc
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+set background=dark
+"set t_Co=256
+set dir=~/.vim.swaps//,/var/tmp//,/tmp//,.  " Store swp files in a specific location
+set rtp+=/usr/local/go/misc/vim
 
-" Move around windows
-map <C-h> <C-w>h
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-l> <C-w>l
+
+" solarized
+let g:solarized_diffmode="high" "default value is normal
+let g:solarized_visibility="high" " For :set list
+let g:solarized_contrast = "high"
+syntax enable
+if !has('gui_running')
+  let g:solarized_termcolors=&t_Co
+  let g:solarized_termtrans=1
+endif
+colorscheme solarized
+"colorscheme desert
+
+
+let mapleader='\'
+let maplocalleader='\\'
+
+
+" To check for ambiguities:
+" :verbose noremap <leader>b
+nnoremap <space> ;
+nnoremap <leader>ev :e $MYVIMRC<CR>
+
+nnoremap <leader>y :!sh ~/dev/py.analysis/sh/sync_ardmore.sh<CR>
+
+nnoremap <leader>mh :call Drd_markdown_to_html('compile')<CR>
+nnoremap <leader>mo :call Drd_markdown_to_html('open')<CR>
+nnoremap <leader>mr :call Drd_markdown_to_html('rsync')<CR>
+
+nnoremap <leader>q :nohlsearch<CR>
+nnoremap <leader>l :set list!<CR>
+nnoremap <leader>p :cd %:h<CR>
+nnoremap <silent> <leader>s :set spell!<CR>
+
+" Load todo
+noremap <silent> <leader>gt :e $HOME/Dropbox/Documents/GTD/Today.md<CR>
+noremap <silent> <leader>gi :e $HOME/Dropbox/Documents/GTD/Inbox.md<CR>
+noremap <silent> <leader>gd :e $HOME/Dropbox/Documents/GTD/Done.md<CR>
+
+nnoremap <leader>u :Run<CR>
+
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
 
 " bash like key for the command line
 cnoremap <C-a>  <Home>
@@ -110,90 +133,54 @@ inoremap  <Esc>    <NOP>
 nnoremap j gj
 nnoremap k gk
 
-" Load todo
-map <silent> <leader>t :e $HOME/Dropbox/todo/todo.txt<CR>
 
-" to reselect the text that was just pasted so I can perform commands
-" (like indentation) on it
-nnoremap <leader>v V`]
-
-" Easy jumping and selecting over block of code
-map <Space> %
-
-" If in macvim, make the window take the full screen
-nmap <leader>f :set columns=400<CR>:set lines=300<CR>
-
-" Cycle to previous buffer
-" nnoremap <leader><leader> <c-^>
+" Cycle to previous buffer nnoremap <leader><leader> <c-^>
 nnoremap <leader>f <c-^>
 
 " Tabs Control
 " map H gT
 " map L gt
-map <silent> <leader>n :tabnew<Cr>
-map <silent> <leader>c <C-w>c
+noremap <silent> <leader>n :tabnew<Cr>
+noremap <silent> <leader>c <C-w>c
 
-" Show a read line at 80c
-" nmap <leader>H :set colorcolumn=80 <CR>
-" nmap <leader>h :set colorcolumn=0 <CR>
+" Set the directory of the current file as current dir for NERDtree
+noremap <leader>r :NERDTreeFind<cr> 
+
+" Copy to the clipboard (mac)
+vnoremap <leader>y :w !pbcopy<cr><cr>
+
+
 highlight ColorColumn ctermbg=magenta
 call matchadd('ColorColumn', '\%81v', 100)
 
-" Toggle between displaying line numbers
-" nmap <leader>n :set number!<CR>
 
-" Set the directory of the current file as current dir for NERDtree
-map <leader>r :NERDTreeFind<cr>
-
-" Close all the other buffers but this one
-map <leader>o :Bufonly<cr>
-
-" Copy to the clipboard (mac)
-vmap <leader>y :w !pbcopy<cr><cr>
-
-" Save file
-nmap <leader>u :update<CR>
-noremap <C-x> <C-C> :update<CR>
-vnoremap <C-x> <C-O> :update<CR>
-
-map <leader>g :GundoToggle<CR>
-
-"}}}
-
-
-" Autocmd {{{
-if has("autocmd")
-  " remove trailing spaces
-  autocmd BufWritePre * :%s/\s\+$//e
-  " No expandtab when working with Makefiles
+augroup vimrc
+  autocmd!
+  " autocmd BufWritePre * :%s/\s\+$//e
   autocmd FileType make setlocal noexpandtab
-  " python
   autocmd FileType python set tabstop=4 shiftwidth=4
-  " js
-  autocmd FileType javascript set tabstop=2 shiftwidth=2
+  autocmd FileType javascript set tabstop=2 shiftwidth=2 et
+  autocmd FileType html set tabstop=2 shiftwidth=2 et
+  autocmd FileType css set tabstop=2 shiftwidth=2 et
   " Save session
   au BufWinLeave ?* mkview
   au BufWinEnter ?* silent loadview
-endif
-"}}}
+  autocmd bufwritepost .vimrc source $MYVIMRC
+augroup END
 
-" Viki plugin {{{
+
 au BufRead,BufNewFile *.viki set ft=viki
 let vikiNameSuffix=".viki"
 let g:vikiOpenUrlWith_http = "silent !firefox %{FILE}"
-"}}}
 
-" NERDtree {{{
-map <silent> <leader>nt :NERDTreeToggle<CR>
+
+noremap <silent> <leader>nt :NERDTreeToggle<CR>
 let g:NERDTreeWinSize = 35
-" List current dir (Vertical split)
-map <silent> <leader>e :Vex<CR>
 " let g:netrw_preview = 1
-"let g:netrw_liststyle = 3
-"let g:netrw_winsize = 40
+" let g:netrw_liststyle = 3
 let g:NERDTreeDirArrows=1
 let g:NERDTreeChDirMode=2
-let NERDTreeIgnore=['\.o$', '\~$']
+let NERDTreeIgnore=['\.o$', '\~$', '\.pyc$']
 " I want relative numbers in the NERDTree windows
 autocmd FileType nerdtree setlocal relativenumber
 augroup NerdCursor
@@ -202,37 +189,24 @@ augroup NerdCursor
   autocmd BufLeave NERD_tree_* highlight clear CursorLine
   autocmd BufAdd * highlight clear CursorLine
 augroup END
-"}}}
-"
 
-" Store swp files in a specific location
-set dir=~/.vim.swaps//,/var/tmp//,/tmp//,.
 
-" Syntastic plugings configs {{{
 let g:syntastic_javascript_checker = "jshint"
 let g:syntastic_auto_loc_list=0
-" }}}
 let g:syntastic_enable_signs=1
 
-" Go
-" {{{
-set rtp+=/usr/local/go/misc/vim
-" syntax on
+
 autocmd BufNewFile,BufReadPost *.go set filetype=go
 if has("autocmd") " I want tabs if working with go
-  autocmd BufWritePre * :%s/\s\+$//e
+  " autocmd BufWritePre * :%s/\s\+$//e
   autocmd FileType go setlocal noexpandtab
 endif
-" }}}
 
-" ctrlp
-" {{{
-set runtimepath^=~/.vim/bundle/ctrlp.vim
+
 let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
-set wildignore+=*.so,*.swp,*.zip,*.pyc
 let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
 " 'r' - the nearest ancestor that contains one of these directories or
 "       files: .git .hg .svn .bzr
@@ -242,21 +216,23 @@ let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend)$|(^|[/\\])\.(
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_dotfiles = 0
 let g:ctrlp_switch_buffer = 0
-" }}}
-
-" powerline
-" {{{
-set laststatus=2   " Always show the statusline
-" }}}
-
-" Tabularize {{{
-nmap <leader>a= :Tabularize /=<CR>
-vmap <leader>a= :Tabularize /=<CR>
-nmap <leader>a: :Tabularize /:\zs<CR>
-vmap <leader>a: :Tabularize /:\zs<CR>
-"" }}}
 
 
+nnoremap <leader>a= :Tabularize /=<CR>
+vnoremap <leader>a= :Tabularize /=<CR>
+nnoremap <leader>a: :Tabularize /:\zs<CR>
+vnoremap <leader>a: :Tabularize /:\zs<CR>
 
 
+let g:instant_markdown_slow = 1
 
+
+" grip the current file and open it in browser (open)
+function! Drd_markdown_to_html(task)
+    silent !clear
+    write
+    let l:cmd = "grip --export "
+    let l:md_file = bufname("%")
+    let l:html_file = expand("%:r") . ".html"
+    execute "!" . l:cmd . " " . l:md_file . "; open " . l:html_file
+endfunction
