@@ -84,6 +84,8 @@ let maplocalleader='\\'
 nnoremap <space> ;
 nnoremap <leader>ev :e $MYVIMRC<CR>
 
+nnoremap <leader>1 :MRU<CR>
+
 nnoremap <leader>y :!sh ~/dev/py.analysis/sh/sync_ardmore.sh<CR>
 
 nnoremap <leader>mh :call Drd_markdown_to_html('compile')<CR>
@@ -96,6 +98,7 @@ nnoremap <leader>p :cd %:h<CR>
 nnoremap <silent> <leader>s :set spell!<CR>
 
 " Load todo
+noremap <silent> <leader>gp :e $HOME/Dropbox/Documents/GTD/Progress_Update.md<CR>
 noremap <silent> <leader>gt :e $HOME/Dropbox/Documents/GTD/Today.md<CR>
 noremap <silent> <leader>gi :e $HOME/Dropbox/Documents/GTD/Inbox.md<CR>
 noremap <silent> <leader>gd :e $HOME/Dropbox/Documents/GTD/Done.md<CR>
@@ -227,12 +230,38 @@ vnoremap <leader>a: :Tabularize /:\zs<CR>
 let g:instant_markdown_slow = 1
 
 
+let MRU_Use_Current_Window = 1
+
+
 " grip the current file and open it in browser (open)
 function! Drd_markdown_to_html(task)
-    silent !clear
-    write
-    let l:cmd = "grip --export "
-    let l:md_file = bufname("%")
-    let l:html_file = expand("%:r") . ".html"
-    execute "!" . l:cmd . " " . l:md_file . "; open " . l:html_file
+  " TODO:
+  " - find path to python script dynamically
+  " - allow user to set remote and other dynamic vars
+  silent !clear
+  write
+
+  let l:remote      = "http://davidr.io/~drio/markdown/"
+  let l:converter   = "/Users/drio/dev/playground/md_to_html.py"
+  let l:md_file     = expand("%")
+  let l:extension   = expand("%:e")
+  let l:html_file   = expand("%:r") . ".html"
+  let l:convert_cmd = "!" . l:converter . " " . l:md_file . " >" . l:html_file 
+  let l:bn_html     = substitute(expand("%:t"), "." . l:extension, ".html", "")
+
+  " Always convert to html
+  if a:task == "compile"
+    execute l:convert_cmd
+  endif
+
+  if a:task == "open"
+    execute l:convert_cmd . ";open " . l:html_file
+  endif
+
+  if a:task == "rsync"
+    execute l:convert_cmd .
+      \ ";echo " . "extension: " . l:extension
+      \ ";echo " . "html file: " . l:html_file
+      \ ";scp " . l:html_file . " apu:public_html/markdown/"
+  endif
 endfunction
