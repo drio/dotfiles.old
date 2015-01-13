@@ -1,0 +1,11 @@
+/* vim: set ts=2 sw=2 et */
+html {
+  min-width: 1040px;
+  margin: 0;
+}
+
+body {
+  font: 16px/1.5em "Helvetica Neue", Helvetica, sans-serif;
+  margin: 1em 0 4em 0;
+}
+
