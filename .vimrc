@@ -7,21 +7,28 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#begin()
 Bundle 'gmarik/vundle'
 
+Bundle 'tpope/vim-dispatch'
 Bundle 'scrooloose/syntastic'
 Bundle 'kien/ctrlp.vim'
 Bundle 'scrooloose/nerdtree'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'msanders/snipmate.vim'
 Bundle 'tpope/vim-surround.git'
+Bundle 'tpope/vim-fugitive.git'
+Bundle 'tpope/vim-eunuch'
 Bundle 'yegappan/mru.git'
 Bundle 'nicholaides/words-to-avoid.vim'
 Bundle 'pbrisbin/vim-mkdir.git'
-Bundle 'pbrisbin/vim-runfile'
-Bundle 'tpope/vim-eunuch'
 Bundle 'jeffkreeftmeijer/vim-numbertoggle'
+
+" These two go together
+Bundle 'mattn/webapi-vim'
+Bundle 'mattn/gist-vim.git'
 
 Bundle 'godlygeek/tabular'
 Bundle 'plasticboy/vim-markdown.git'
+
+Bundle 'file:///Users/drio/dev/vim-qmdown'
 
 Bundle 'nvie/vim-flake8.git'
 " Bundle 'bling/vim-airline'
@@ -84,26 +91,53 @@ let maplocalleader='\\'
 nnoremap <space> ;
 nnoremap <leader>ev :e $MYVIMRC<CR>
 
+
+noremap <silent> <leader>nt :NERDTreeToggle<CR>
+" Set the directory of the current file as current dir for NERDtree
+noremap <leader>nf :NERDTreeFind<cr> 
+
+noremap <leader>vu :BundleUpdate<cr>
+
+" Cycle to previous buffer nnoremap <leader><leader> <c-^>
+nnoremap <leader>f <c-^>
+
+noremap <leader>sc :close<CR>
+noremap <leader>sh :sp<CR>
+noremap <leader>sv :vsp<CR>
+
+nnoremap <leader>sp :set spell!<CR>
+
 nnoremap <leader>1 :MRU<CR>
+nnoremap <leader>2 :!open %<CR>
 
-nnoremap <leader>y :!sh ~/dev/py.analysis/sh/sync_ardmore.sh<CR>
+nnoremap <leader>w :w<CR>
 
-nnoremap <leader>mh :call Drd_markdown_to_html('compile')<CR>
-nnoremap <leader>mo :call Drd_markdown_to_html('open')<CR>
-nnoremap <leader>mr :call Drd_markdown_to_html('rsync')<CR>
+nnoremap <leader>y :Dispatch sh ~/dev/py.analysis/sh/sync_ardmore.sh<CR>
+
+nnoremap <leader>tt :Dispatch! bash ~/Dropbox/git_repo/dotfiles/tmuxtime.sh setup<CR>
+nnoremap <leader>ts :Dispatch! bash ~/Dropbox/git_repo/dotfiles/tmuxtime.sh split<CR>
+nnoremap <leader>tp :Dispatch! bash ~/Dropbox/git_repo/dotfiles/tmuxtime.sh pis<CR>
 
 nnoremap <leader>q :nohlsearch<CR>
 nnoremap <leader>l :set list!<CR>
 nnoremap <leader>p :cd %:h<CR>
-nnoremap <silent> <leader>s :set spell!<CR>
 
-" Load todo
-noremap <silent> <leader>gp :e $HOME/Dropbox/Documents/GTD/Progress_Update.md<CR>
-noremap <silent> <leader>gt :e $HOME/Dropbox/Documents/GTD/Today.md<CR>
-noremap <silent> <leader>gi :e $HOME/Dropbox/Documents/GTD/Inbox.md<CR>
-noremap <silent> <leader>gd :e $HOME/Dropbox/Documents/GTD/Done.md<CR>
+" Markdown
+nnoremap <leader>mc :call QMD_main('compile')<CR>
+nnoremap <leader>mo :call QMD_main('open')<CR>
+nnoremap <leader>mr :call QMD_main('rsync', 'apu:public_html/markdown')<CR>
 
-nnoremap <leader>u :Run<CR>
+
+" Load todo/GTD
+nnoremap <silent> <leader>gd :e $HOME/Dropbox/Documents/GTD/Done.md<CR>
+nnoremap <silent> <leader>gs :e $HOME/Dropbox/Documents/GTD/Scratch.md<CR>
+nnoremap <silent> <leader>gi :e $HOME/Dropbox/Documents/GTD/Inbox.md<CR>
+nnoremap <silent> <leader>gp :e $HOME/Dropbox/Documents/GTD/Progress_Update.md<CR>
+nnoremap <silent> <leader>gt :e $HOME/Dropbox/Documents/GTD/Today.md<CR>
+nnoremap <silent> <leader>gb :e $HOME/Dropbox/Documents/GTD/Inbox.md<CR>:vsp<CR>:e $HOME/Dropbox/Documents/GTD/Today.md<CR>
+
+nnoremap <leader>ud :w<CR>:Dispatch %<CR>
+nnoremap <leader>up :w<CR>:Dispatch python %<CR>
 
 noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
@@ -137,17 +171,11 @@ nnoremap j gj
 nnoremap k gk
 
 
-" Cycle to previous buffer nnoremap <leader><leader> <c-^>
-nnoremap <leader>f <c-^>
 
 " Tabs Control
 " map H gT
 " map L gt
-noremap <silent> <leader>n :tabnew<Cr>
-noremap <silent> <leader>c <C-w>c
 
-" Set the directory of the current file as current dir for NERDtree
-noremap <leader>r :NERDTreeFind<cr> 
 
 " Copy to the clipboard (mac)
 vnoremap <leader>y :w !pbcopy<cr><cr>
@@ -177,8 +205,7 @@ let vikiNameSuffix=".viki"
 let g:vikiOpenUrlWith_http = "silent !firefox %{FILE}"
 
 
-noremap <silent> <leader>nt :NERDTreeToggle<CR>
-let g:NERDTreeWinSize = 35
+let g:NERDTreeWinSize = 40
 " let g:netrw_preview = 1
 " let g:netrw_liststyle = 3
 let g:NERDTreeDirArrows=1
@@ -231,37 +258,3 @@ let g:instant_markdown_slow = 1
 
 
 let MRU_Use_Current_Window = 1
-
-
-" grip the current file and open it in browser (open)
-function! Drd_markdown_to_html(task)
-  " TODO:
-  " - find path to python script dynamically
-  " - allow user to set remote and other dynamic vars
-  silent !clear
-  write
-
-  let l:remote      = "http://davidr.io/~drio/markdown/"
-  let l:converter   = "/Users/drio/dev/playground/md_to_html.py"
-  let l:md_file     = expand("%")
-  let l:extension   = expand("%:e")
-  let l:html_file   = expand("%:r") . ".html"
-  let l:convert_cmd = "!" . l:converter . " " . l:md_file . " >" . l:html_file 
-  let l:bn_html     = substitute(expand("%:t"), "." . l:extension, ".html", "")
-
-  " Always convert to html
-  if a:task == "compile"
-    execute l:convert_cmd
-  endif
-
-  if a:task == "open"
-    execute l:convert_cmd . ";open " . l:html_file
-  endif
-
-  if a:task == "rsync"
-    execute l:convert_cmd .
-      \ ";echo " . "extension: " . l:extension
-      \ ";echo " . "html file: " . l:html_file
-      \ ";scp " . l:html_file . " apu:public_html/markdown/"
-  endif
-endfunction
