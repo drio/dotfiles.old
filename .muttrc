@@ -1,17 +1,8 @@
-set from = "driodeiros@gmail.com"
-set realname = "David Rio-Deiros"
-
-set imap_user = "driodeiros@gmail.com"
-#set imap_pass = `cat ~/.msmtprc  | grep password | awk '{print $2}'`
+source ~/.mutt/gmail.mutt
+macro index <f2> '<sync-mailbox><enter-command>source ~/.mutt/fastmail.mutt<enter><change-folder>!<enter>'
+macro index <f4> '<sync-mailbox><enter-command>source ~/.mutt/gmail.mutt<enter><change-folder>!<enter>'
 
 set folder = "imaps://imap.gmail.com:993"
-#set folder=~/Maildir
-#set spoolfile = "+INBOX"
-#set postponed ="+[Gmail]/Drafts"
-#set trash = "imaps://imap.gmail.com/[Gmail]/Trash"
-bind index "^" imap-fetch-mail
-macro index <f2> '<change-folder> imaps://imap.gmail.com:993<enter>'
-macro index <f3> '<change-folder> ~/Maildir/Inbox<enter>'
 
 set delete=yes
 
@@ -21,41 +12,23 @@ set certificate_file =~/.mutt/certificates
 
 auto_view text/html
 
-set smtp_url = "smtp://driodeiros@smtp.gmail.com:587/"
-set smtp_pass = `cat ~/.msmtprc  | grep password | awk '{print $2}'`
-#set sendmail="/usr/local/bin/msmtp"
-#set from="driodeiros@gmail.com"
-
-#
-#
-# Gmail-style keyboard shortcuts
-macro index,pager y "<enter-command>unset trash\n <delete-message>" "Gmail archive message"
-macro index,pager d "<enter-command>set trash=\"imaps://imap.googlemail.com/[GMail]/Bin\"\n <delete-message>" "Gmail delete message"
-#macro index,pager gi "<change-folder>=INBOX<enter>" "Go to inbox"
-#macro index,pager ga "<change-folder>=[Gmail]/All Mail<enter>" "Go to all mail"
-#macro index,pager gs "<change-folder>=[Gmail]/Starred<enter>" "Go to starred messages"
-#macro index,pager gd "<change-folder>=[Gmail]/Drafts<enter>" "Go to drafts"
+set query_command = "contacts -Sf '%eTOKEN%n' '%s' | sed -e 's/TOKEN/\t/g'"
+bind editor <Tab> complete-query
+bind editor ^T    complete
 
 set move = no  #Stop asking to "move read messages to mbox"!
 set imap_keepalive = 900
 
 set markers=no # don't put '+' at the beginning of wrapped lines
-#set pager_index_lines= 5 # how large is the index window?
 set sort = 'threads'
 set sort_aux = 'last-date-received'
 
-# My Editor
 set editor='vim + -c "set textwidth=80" -c "set wrap"'
-#
 
-# My stuff
-#
 set envelope_from=yes
 set edit_headers	      # put headers in editor when composing messages
-# Automatically quote message in reply
 set include=yes
 
-# Set quotemark to 1 byte
 set indent_str="> "
 set markers=no	#no + on wrapped lines
 
@@ -64,23 +37,16 @@ folder-hook IN-Spam push 'D.\n'
 
 hdr_order date from subject to cc
 ignore *
-unignore date
-unignore from
-unignore to
-unignore subject
-unignore cc
-unignore X-FreeBSD-CVS-Branch
+unignore Date:
+unignore From:
+unignore To:
+unignore Subject:
+unignore Cc:
+unignore X-FreeBSD-CVS-Branch:
+unignore X-Mailer:
+unignore User-Agent:
 
-
-
-# Remap bounce-message function to "B"
 bind index B bounce-message
-
-# Mario Holbe suggests:
-# macro index b '<enter-command>toggle sidebar_visible<enter><refresh>'
-# macro pager b '<enter-command>toggle
-# sidebar_visible<enter><redraw-screen>'
-# }
 
 macro index "\em"    "<shell-escape>$HOME/.msearch.sh " "Run a Mairix search"
 macro index "\ef"    "<change-folder-readonly>=mairix-search\n" "Switch to Mairix search results"
@@ -89,10 +55,10 @@ macro pager "\ef"    "<change-folder-readonly>=mairix-search\n" "Switch to Mairi
 
 macro index <esc>m "T~N<enter>;WNT~O<enter>;WO\CT~T<enter>" "mark all messages read"
 
-set alias_file= ~/.mutt/aliases
-set sort_alias= alias
-set reverse_alias=yes
-source ~/.mutt/.mutt_pass
-source /Users/drio/.mutt/aliases
+# set alias_file= ~/.mutt/aliases
+# set sort_alias= alias
+# set reverse_alias=yes
 
 source ~/.mutt.colors
+
+# vim:set ft=2 sw=2 noet ft=muttrc:

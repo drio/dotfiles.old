@@ -41,3 +41,4 @@ source $HOME/.bashrc_for_here
 export NODE_PATH="/usr/local/lib/node_modules"
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+PATH=$HOME/Dropbox/git_repo:$PATH
