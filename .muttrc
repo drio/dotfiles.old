@@ -48,13 +48,6 @@ unignore User-Agent:
 
 bind index B bounce-message
 
-macro index "\em"    "<shell-escape>$HOME/.msearch.sh " "Run a Mairix search"
-macro index "\ef"    "<change-folder-readonly>=mairix-search\n" "Switch to Mairix search results"
-macro pager "\em"    "<shell-escape>$HOME/.msearch.sh " "Run a Mairix search"
-macro pager "\ef"    "<change-folder-readonly>=mairix-search\n" "Switch to Mairix search results"
-
-macro index <esc>m "T~N<enter>;WNT~O<enter>;WO\CT~T<enter>" "mark all messages read"
-
 # set alias_file= ~/.mutt/aliases
 # set sort_alias= alias
 # set reverse_alias=yes

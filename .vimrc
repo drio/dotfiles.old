@@ -96,6 +96,7 @@ noremap <leader>Fc :Gcommit<CR>
 noremap <leader>Fp :Gpush<CR>
 noremap <leader>Fd :Gdiff<CR>
 noremap <leader>Fw :Gwrite<CR>
+noremap <leader>Fs :Gstatus<CR>
 
 
 noremap <silent> <leader>nt :NERDTreeToggle<CR>
