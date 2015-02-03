@@ -91,6 +91,12 @@ let maplocalleader='\\'
 nnoremap <space> ;
 nnoremap <leader>ev :e $MYVIMRC<CR>
 
+" Fugitive
+noremap <leader>Fc :Gcommit<CR>
+noremap <leader>Fp :Gpush<CR>
+noremap <leader>Fd :Gdiff<CR>
+noremap <leader>Fw :Gwrite<CR>
+
 
 noremap <silent> <leader>nt :NERDTreeToggle<CR>
 " Set the directory of the current file as current dir for NERDtree

@@ -48,7 +48,7 @@ pis() {
   tmux new-window -n pis -t $SESSION:
   pis_window=$(tmux list-window -t $SESSION: | grep pis | awk -F: '{print $1}')
   tmux split-window -h -t $SESSION:$pis_window
-  tmux send-keys -t $SESSION:$pis_window.0 'ssh -t pi@192.168.1.109 tmux a' C-m
+  tmux send-keys -t $SESSION:$pis_window.0 'ssh -t pi@192.168.1.232 tmux a' C-m
   tmux send-keys -t $SESSION:$pis_window.1 'ssh -t  -c aes256-ctr pi@192.168.1.132  tmux a' C-m
 
   tmux split-window -v -t $SESSION:$pis_window.1
