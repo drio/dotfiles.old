@@ -1,5 +1,3 @@
-folder-hook "gmail.com" "source ~/.mutt/fastmail.mutt"
-folder-hook "fastmail.com" "source ~/.mutt/gmail.mutt" 
 source ~/.mutt/gmail.mutt
 
 macro index <f2> '<sync-mailbox><enter-command>source ~/.mutt/fastmail.mutt<enter><change-folder>!<enter>'
@@ -53,7 +51,8 @@ unignore User-Agent:
 bind index B bounce-message
 bind editor <Tab> complete      # default Mutt setting
 bind editor ^T complete-query   # default Mutt setting
-#unset query_command             # default Mutt setting
+bind index - collapse-thread
+bind index _ collapse-all
 
 
 #set query_command="cat ~/.mutt/aliases | grep '%s'"
