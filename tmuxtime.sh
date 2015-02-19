@@ -26,16 +26,17 @@ vim() {
 
 mutt_irssi() {
   irssi_window=$(tmux list-window -t $SESSION: | grep irssi | awk -F: '{print $1}')
-  if [ ".$irssi_window" == "." ];then
-    echo "+ Creating irssi window..."
-    tmux new-window -n irssi -t $SESSION:
-    irssi_window=$(tmux list-window -t $SESSION: | grep irssi | awk -F: '{print $1}')
-    tmux split-window -h -t $SESSION:$irssi_window
-    tmux send-keys -t $SESSION:$irssi_window.0 'mutt' C-m
-    tmux send-keys -t $SESSION:$irssi_window.1 'ssh -t is tmux a' C-m
-    tmux split-window -v -t $SESSION:$irssi_window.0
-    tmux split-window -v -t $SESSION:$irssi_window.1
+  if [ ".$irssi_window" != "." ];then
+    tmux kill-window -t $SESSION:$irssi_window
   fi
+  echo "+ Creating irssi window..."
+  tmux new-window -n irssi -t $SESSION:
+  irssi_window=$(tmux list-window -t $SESSION: | grep irssi | awk -F: '{print $1}')
+  tmux split-window -h -t $SESSION:$irssi_window
+  tmux send-keys -t $SESSION:$irssi_window.0 'mutt' C-m
+  tmux send-keys -t $SESSION:$irssi_window.1 'ssh -t is tmux a' C-m
+  tmux split-window -v -t $SESSION:$irssi_window.0
+  tmux split-window -v -t $SESSION:$irssi_window.1
 }
 
 

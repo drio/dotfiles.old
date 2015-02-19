@@ -28,7 +28,7 @@ set imap_keepalive = 900
 set markers=no # don't put '+' at the beginning of wrapped lines
 set sort = 'threads'
 set sort_aux = 'last-date-received'
-set editor='vim + -c "set textwidth=80" -c "set wrap"'
+set editor='vim + -c "set textwidth=80" -c "set wrap" -c "set runtimepath-=~/.vim/bundle/mru"'
 set envelope_from=yes
 set edit_headers	      # put headers in editor when composing messages
 set include=yes
@@ -62,5 +62,6 @@ set alias_file = '~/.mutt/aliases'
 
 source $alias_file
 source ~/.mutt.colors
+#source ~/.mutt.colors.solarized.16
 
 # vim:set ft=2 sw=2 noet ft=muttrc:
