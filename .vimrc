@@ -21,6 +21,8 @@ Bundle 'nicholaides/words-to-avoid.vim'
 Bundle 'pbrisbin/vim-mkdir.git'
 Bundle 'jeffkreeftmeijer/vim-numbertoggle'
 
+Bundle 'fatih/vim-go.git'
+
 " These two go together
 Bundle 'mattn/webapi-vim'
 Bundle 'mattn/gist-vim.git'
@@ -64,9 +66,22 @@ set laststatus=2                " Always show the statusline
 set wildignore+=*.so,*.swp,*.zip,*.pyc
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 set background=dark
-"set t_Co=256
 set dir=~/.vim.swaps//,/var/tmp//,/tmp//,.  " Store swp files in a specific location
 set rtp+=/usr/local/go/misc/vim
+
+let c_minlines=500
+set nofoldenable  
+set nostartofline
+set scrolloff=10
+set showmatch
+" set spellfile=~/.vimspell.add
+set viminfo=
+set wildmode=longest,list,full
+set t_Co=256
+
+silent !mkdir -p ~/.vim/{backup,swp}/
+set backupdir=~/.vim/backup/
+set directory=~/.vim/swp/
 
 
 " solarized
@@ -133,6 +148,13 @@ nnoremap <leader>p :cd %:h<CR>
 nnoremap <leader>mc :call QMD_main('compile')<CR>
 nnoremap <leader>mo :call QMD_main('open')<CR>
 nnoremap <leader>mr :call QMD_main('rsync', 'apu:public_html/markdown')<CR>
+
+" Golang
+au FileType go nmap <leader>gr <Plug>(go-run)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+
 
 
 " Load todo/GTD
