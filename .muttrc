@@ -1,4 +1,4 @@
-source ~/.mutt/gmail.mutt
+source ~/.mutt/fastmail.mutt
 
 macro index <f2> '<sync-mailbox><enter-command>source ~/.mutt/fastmail.mutt<enter><change-folder>!<enter>'
 macro index <f4> '<sync-mailbox><enter-command>source ~/.mutt/gmail.mutt<enter><change-folder>!<enter>'
@@ -28,7 +28,7 @@ set imap_keepalive = 900
 set markers=no # don't put '+' at the beginning of wrapped lines
 set sort = 'threads'
 set sort_aux = 'last-date-received'
-set editor='vim + -c "set textwidth=80" -c "set wrap" -c "set runtimepath-=~/.vim/bundle/mru"'
+set editor='vim + -c "set textwidth=80" -c "set wrap" -c "set spell" -c "set runtimepath-=~/.vim/bundle/mru"'
 set envelope_from=yes
 set edit_headers	      # put headers in editor when composing messages
 set include=yes
