@@ -23,6 +23,8 @@ Bundle 'jeffkreeftmeijer/vim-numbertoggle'
 
 Bundle 'fatih/vim-go.git'
 
+Bundle 'kchmck/vim-coffee-script'
+
 " These two go together
 Bundle 'mattn/webapi-vim'
 Bundle 'mattn/gist-vim.git'
@@ -199,6 +201,12 @@ inoremap  <Esc>    <NOP>
 nnoremap j gj
 nnoremap k gk
 
+" Enter command mode with one keystroke
+" nnoremap ; :
+" nnoremap : ;
+
+" Start an external command with a single bang
+nnoremap ! :! 
 
 
 " Tabs Control
